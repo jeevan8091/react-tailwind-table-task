@@ -44,30 +44,6 @@ const Table = () => {
     return name.substring(0, 2).toUpperCase();
   };
 
-  // Deterministic user statuses to keep them stable and consistent across filter queries
-  const getStatus = (id) => {
-    const statusCycle = id % 3;
-    if (statusCycle === 1) {
-      return {
-        text: 'Active',
-        badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
-        dot: 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse',
-      };
-    } else if (statusCycle === 0) {
-      return {
-        text: 'Busy',
-        badge: 'bg-amber-50 text-amber-700 border-amber-200/60',
-        dot: 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]',
-      };
-    } else {
-      return {
-        text: 'Offline',
-        badge: 'bg-slate-100 text-slate-500 border-slate-200/60',
-        dot: 'bg-slate-400',
-      };
-    }
-  };
-
   // Dynamic row border accent mapping
   const getAccent = (id) => {
     const accentCycle = id % 5;
@@ -116,8 +92,8 @@ const Table = () => {
         </div>
 
         {/* Stats skeleton */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3].map((i) => (
             <div key={i} className="h-28 bg-white/70 backdrop-blur-md rounded-2xl border border-white/20 p-6"></div>
           ))}
         </div>
@@ -133,7 +109,6 @@ const Table = () => {
 
   // Calculate live statistics
   const totalCount = users.length;
-  const activeCount = users.filter((u) => u.id % 3 === 1).length;
   const uniqueCompanies = new Set(users.map((u) => u.company.name)).size;
   const uniqueWebsites = new Set(users.map((u) => u.website)).size;
 
@@ -148,7 +123,7 @@ const Table = () => {
       </div>
 
       {/* Modern Dashboard Statistics Cards Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         {/* Card 1: Total Users */}
         <div className="group relative overflow-hidden backdrop-blur-md bg-white/75 border border-white/40 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 hover:-translate-y-1 transition-all duration-300">
           <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500/10 to-blue-500/5 rounded-bl-full pointer-events-none transition-transform duration-500 group-hover:scale-125"></div>
@@ -168,25 +143,6 @@ const Table = () => {
           <div className="mt-4 flex items-center justify-between text-xs text-indigo-500 font-medium">
             <span>Fetched via dynamic API</span>
             <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-ping"></span>
-          </div>
-        </div>
-
-        {/* Card 2: Active Connection */}
-        <div className="group relative overflow-hidden backdrop-blur-md bg-white/75 border border-white/40 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:shadow-emerald-100/50 hover:-translate-y-1 transition-all duration-300">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-emerald-500/10 to-teal-500/5 rounded-bl-full pointer-events-none transition-transform duration-500 group-hover:scale-125"></div>
-          <div className="flex items-center space-x-4">
-            <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-xl shadow-md shadow-emerald-200/50 transition-transform duration-300 group-hover:rotate-6">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active users</p>
-              <h3 className="text-2xl font-bold text-slate-800 mt-1">{activeCount}</h3>
-            </div>
-          </div>
-          <div className="mt-4 text-xs text-emerald-600 font-medium flex items-center space-x-1">
-            <span>🟢 Status: Platform Active</span>
           </div>
         </div>
 
@@ -260,7 +216,6 @@ const Table = () => {
               <tr className="text-xs text-white uppercase bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 tracking-wider">
                 <th className="px-6 py-4 font-black rounded-l-2xl">ID</th>
                 <th className="px-6 py-4 font-black">User Details</th>
-                <th className="px-6 py-4 font-black">Status</th>
                 <th className="px-6 py-4 font-black">Email Address</th>
                 <th className="px-6 py-4 font-black">Phone Number</th>
                 <th className="px-6 py-4 font-black">Website</th>
@@ -272,7 +227,6 @@ const Table = () => {
               {filteredUsers.length > 0 ? (
                 filteredUsers.map((user, index) => {
                   const accent = getAccent(user.id);
-                  const status = getStatus(user.id);
                   const initials = getInitials(user.name);
                   const cellBg = index % 2 === 0 ? 'bg-white group-hover:bg-blue-50/20' : 'bg-slate-50/70 group-hover:bg-blue-50/20';
 
@@ -303,16 +257,6 @@ const Table = () => {
                             <div className="text-xs font-semibold text-slate-400">@{user.username}</div>
                           </div>
                         </div>
-                      </td>
-
-                      {/* Status Badging Block */}
-                      <td className={`px-6 py-4 ${cellBg} transition-all duration-300`}>
-                        <span
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${status.badge}`}
-                        >
-                          <span className={`w-2 h-2 rounded-full mr-2 ${status.dot}`}></span>
-                          {status.text}
-                        </span>
                       </td>
 
                       {/* Email Badging Block */}
@@ -433,7 +377,7 @@ const Table = () => {
                 })
               ) : (
                 <tr>
-                  <td colSpan="8" className="px-6 py-12 text-center bg-white rounded-2xl">
+                  <td colSpan="7" className="px-6 py-12 text-center bg-white rounded-2xl">
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <div className="p-3 bg-red-50 text-red-500 rounded-full border border-red-100">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">

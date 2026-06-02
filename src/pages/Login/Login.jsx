@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic/Navigation is deliberately omitted in Part 1 as requested.
+    setError(''); // Reset any previous error message
+
+    // Validate credentials
+    if (username === 'admin' && password === 'password') {
+      setIsLoading(true);
+      
+      // Simulate signing in for a short duration
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate('/dashboard');
+      }, 1200); // short loading state duration (1.2 seconds)
+    } else {
+      setError('Invalid Username or Password');
+    }
   };
 
   return (
@@ -51,10 +68,11 @@ const Login = () => {
                   id="username"
                   type="text"
                   required
+                  disabled={isLoading}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter your username"
-                  className="w-full bg-white/90 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                  className="w-full bg-white/90 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
                 />
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -74,10 +92,11 @@ const Login = () => {
                   id="password"
                   type="password"
                   required
+                  disabled={isLoading}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-white/90 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                  className="w-full bg-white/90 border border-slate-200 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
                 />
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -92,11 +111,23 @@ const Login = () => {
           {/* Sign In Button */}
           <button
             type="submit"
-            className="w-full py-3 px-4 text-sm font-extrabold text-white uppercase tracking-wider bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 rounded-xl shadow-md shadow-indigo-100 hover:shadow-lg hover:shadow-indigo-200/80 hover:scale-[1.01] hover:-translate-y-0.5 active:translate-y-0 active:scale-100 transition-all duration-300 cursor-pointer"
+            disabled={isLoading}
+            className={`w-full py-3 px-4 text-sm font-extrabold text-white uppercase tracking-wider bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 hover:from-blue-700 hover:to-indigo-800 rounded-xl shadow-md shadow-indigo-100 hover:shadow-lg hover:shadow-indigo-200/80 transition-all duration-300 ${
+              isLoading 
+                ? 'opacity-75 cursor-not-allowed' 
+                : 'hover:scale-[1.01] hover:-translate-y-0.5 active:translate-y-0 active:scale-100 cursor-pointer'
+            }`}
           >
-            Sign In
+            {isLoading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
+
+        {/* Display error message below the form */}
+        {error && (
+          <div className="mt-4 text-xs font-semibold text-rose-500 bg-rose-50/50 border border-rose-100 rounded-xl p-3 text-center animate-fade-in">
+            {error}
+          </div>
+        )}
       </div>
     </div>
   );

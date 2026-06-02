@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const Table = () => {
   const [users, setUsers] = useState([]);
@@ -116,10 +116,10 @@ const Table = () => {
     <div className="p-6 max-w-7xl mx-auto space-y-8 select-none">
       {/* Title Section */}
       <div className="text-center relative">
-        <h1 className="text-4xl font-black text-slate-900 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-700 via-indigo-800 to-violet-800">
+        <h1 className="text-3xl font-bold text-slate-800 tracking-tight">
           User Directory
         </h1>
-        <div className="h-1.5 w-16 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mt-3.5 rounded-full shadow-sm"></div>
+        <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-indigo-600 mx-auto mt-3 rounded-full opacity-80"></div>
       </div>
 
       {/* Modern Dashboard Statistics Cards Section */}

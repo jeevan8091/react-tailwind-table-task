@@ -20,6 +20,7 @@ const Login = () => {
       // Simulate signing in for a short duration
       setTimeout(() => {
         setIsLoading(false);
+        localStorage.setItem('isAuthenticated', 'true');
         navigate('/dashboard');
       }, 1200); // short loading state duration (1.2 seconds)
     } else {
@@ -42,7 +43,7 @@ const Login = () => {
           </div>
           
           <div className="space-y-1">
-            <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+            <h2 className="text-2xl font-bold text-slate-800 tracking-tight">
               User Directory
             </h2>
             <h3 className="text-lg font-bold text-indigo-900/80">

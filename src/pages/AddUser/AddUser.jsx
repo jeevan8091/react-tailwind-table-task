@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useForm } from '../../hooks/useForm';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { useUsers } from '../../hooks/useUsers';
 
 const fields = [
@@ -60,6 +61,7 @@ const fields = [
 
 const AddUser = () => {
   const { addedUsers, addUser } = useUsers();
+  const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState('');
   const {
     register,
@@ -82,6 +84,9 @@ const AddUser = () => {
     addUser(values);
     reset();
     setSuccessMessage(`${values.fullName} was added to the user table.`);
+    setTimeout(() => {
+      navigate('/users');
+    }, 1500);
   };
 
   return (
@@ -132,12 +137,19 @@ const AddUser = () => {
             </p>
           )}
 
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={() => navigate('/users')}
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition-colors duration-200 hover:bg-slate-50"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               className="inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 sm:w-auto"
             >
-              Add User
+              Save User
             </button>
           </div>
         </form>

@@ -3,6 +3,7 @@ import { useUsers } from '../../hooks/useUsers';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EditUserModal from './EditUserModal';
 import SearchBar from './SearchBar';
+import UserDetailsModal from './UserDetailsModal';
 import UserTableHeader from './UserTableHeader';
 import UserTableRow from './UserTableRow';
 
@@ -10,6 +11,7 @@ const Table = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [editingUser, setEditingUser] = useState(null);
   const [deletingUser, setDeletingUser] = useState(null);
+  const [detailsUser, setDetailsUser] = useState(null);
   const { filteredUsers, loading, error, updateUser, deleteUser } = useUsers(searchQuery);
 
   const handleSaveUser = (updatedUser) => {
@@ -64,9 +66,9 @@ const Table = () => {
         filteredUsers={filteredUsers}
       />
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 overflow-hidden transition-all duration-300">
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-3 sm:p-4 overflow-hidden transition-all duration-300">
         <div className="overflow-x-auto rounded-2xl">
-          <table className="w-full border-separate border-spacing-y-2 text-left text-slate-600 min-w-[1120px]">
+          <table className="w-full border-separate border-spacing-y-2 text-left text-slate-600">
             <UserTableHeader />
             <tbody className="bg-transparent">
               {filteredUsers.length > 0 ? (
@@ -77,11 +79,12 @@ const Table = () => {
                     index={index}
                     onEdit={setEditingUser}
                     onDelete={setDeletingUser}
+                    onViewDetails={setDetailsUser}
                   />
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8" className="px-6 py-12 text-center bg-white rounded-2xl">
+                  <td colSpan="6" className="px-6 py-12 text-center bg-white rounded-2xl">
                     <div className="flex flex-col items-center justify-center space-y-3">
                       <div className="p-3 bg-blue-50 text-blue-600 rounded-full border border-blue-100">
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -114,6 +117,13 @@ const Table = () => {
           user={deletingUser}
           onCancel={() => setDeletingUser(null)}
           onDelete={handleDeleteUser}
+        />
+      )}
+
+      {detailsUser && (
+        <UserDetailsModal
+          user={detailsUser}
+          onClose={() => setDetailsUser(null)}
         />
       )}
     </div>

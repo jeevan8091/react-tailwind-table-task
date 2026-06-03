@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import Table from '../../components/Table';
+import Table from '../../components/UserTable/Table';
+import { logout } from '../../utils/auth';
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // 4. Navigate back to "/", clear authentication state, return to Login
-    localStorage.removeItem('isAuthenticated');
+    logout();
     navigate('/', { replace: true });
   };
 

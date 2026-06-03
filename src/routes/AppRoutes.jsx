@@ -1,7 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
+import Users from '../pages/Users/Users';
+import AddUser from '../pages/AddUser/AddUser';
 import ProtectedRoute from '../components/ProtectedRoute';
+import Layout from '../components/Layout/Layout';
 import { isAuthenticated } from '../utils/auth';
 
 const AppRoutes = () => {
@@ -12,14 +15,11 @@ const AppRoutes = () => {
           path="/"
           element={isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Login />}
         />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/add-user" element={<AddUser />} />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

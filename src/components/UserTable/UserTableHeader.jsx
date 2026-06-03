@@ -1,15 +1,15 @@
-// Reusable table column header row
 const UserTableHeader = () => {
   return (
     <thead>
-      <tr className="text-xs text-white uppercase bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 tracking-wider">
-        <th className="px-6 py-4 font-black rounded-l-2xl">ID</th>
-        <th className="px-6 py-4 font-black">User Details</th>
-        <th className="px-6 py-4 font-black">Email Address</th>
-        <th className="px-6 py-4 font-black">Phone Number</th>
-        <th className="px-6 py-4 font-black">Website</th>
-        <th className="px-6 py-4 font-black">Full Address</th>
-        <th className="px-6 py-4 font-black rounded-r-2xl">Company details</th>
+      <tr className="text-xs text-slate-600 uppercase bg-slate-100 tracking-wider">
+        <th className="px-6 py-4 font-bold rounded-l-xl">ID</th>
+        <th className="px-6 py-4 font-bold">User Details</th>
+        <th className="px-6 py-4 font-bold">Email Address</th>
+        <th className="px-6 py-4 font-bold">Phone Number</th>
+        <th className="px-6 py-4 font-bold">Website</th>
+        <th className="px-6 py-4 font-bold">Full Address</th>
+        <th className="px-6 py-4 font-bold">Company details</th>
+        <th className="px-6 py-4 font-bold rounded-r-xl text-right">Actions</th>
       </tr>
     </thead>
   );

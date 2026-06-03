@@ -1,47 +1,80 @@
-import { useNavigate } from 'react-router-dom';
-import Table from '../../components/UserTable/Table';
-import { logout } from '../../utils/auth';
+import { useUsers } from '../../hooks/useUsers';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const { users, addedUsers, loading, error } = useUsers();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/', { replace: true });
-  };
+  const stats = [
+    {
+      label: 'Total Users',
+      value: users.length,
+      description: 'All API and locally added records',
+    },
+    {
+      label: 'Total Companies',
+      value: new Set(users.map((user) => user.company?.name).filter(Boolean)).size,
+      description: 'Unique organizations',
+    },
+    {
+      label: 'Total Websites',
+      value: new Set(users.map((user) => user.website).filter(Boolean)).size,
+      description: 'Registered domains',
+    },
+    {
+      label: 'Added Users',
+      value: addedUsers.length,
+      description: 'Created in this admin session',
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 font-sans antialiased text-slate-800 flex flex-col">
-      {/* 3. Dashboard Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-slate-200/80 px-6 py-4 shadow-sm">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Header Left: branding title with icon */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-100">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-            </div>
-            <span className="text-lg font-bold text-slate-800 tracking-tight">
-              User Directory Dashboard
-            </span>
-          </div>
+    <div className="space-y-8">
+      <section>
+        <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
+          Welcome Admin 👋
+        </p>
+        <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-800">
+          User Directory Dashboard
+        </h2>
+        <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500">
+          Monitor users, companies, websites, and locally added directory records from one workspace.
+        </p>
+      </section>
 
-          {/* Header Right: logout button */}
-          <button
-            onClick={handleLogout}
-            className="inline-flex items-center px-4 py-2.5 rounded-xl text-xs font-extrabold text-slate-600 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 border border-slate-200 hover:border-rose-100 shadow-sm transition-all duration-300 cursor-pointer space-x-1.5"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            <span>Logout</span>
-          </button>
+      {loading && (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {[1, 2, 3, 4].map((item) => (
+            <div key={item} className="h-36 animate-pulse rounded-2xl border border-slate-200 bg-white shadow-sm"></div>
+          ))}
         </div>
-      </header>
+      )}
 
-      {/* 1. Existing User Directory Table */}
-      <Table />
+      {error && (
+        <div role="alert" className="rounded-2xl border border-slate-200 bg-white p-6 text-sm font-semibold text-slate-600 shadow-sm">
+          {error}
+        </div>
+      )}
+
+      {!loading && !error && (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {stats.map((stat) => (
+            <article
+              key={stat.label}
+              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:border-blue-100 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-500">{stat.label}</p>
+                  <h3 className="mt-3 text-3xl font-black text-slate-800">{stat.value}</h3>
+                </div>
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-600">
+                  <span className="h-2.5 w-2.5 rounded-full bg-blue-600"></span>
+                </div>
+              </div>
+              <p className="mt-4 text-sm font-medium text-slate-500">{stat.description}</p>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

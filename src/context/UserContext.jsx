@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { UserContext } from './UserContextValue';
+import { getAdminProfile } from '../utils/auth';
 
 const USERS_URL = 'https://jsonplaceholder.typicode.com/users';
 
@@ -38,6 +39,7 @@ export const UserProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [adminProfile, setAdminProfile] = useState(() => getAdminProfile());
 
   useEffect(() => {
     const controller = new AbortController();
@@ -89,6 +91,10 @@ export const UserProvider = ({ children }) => {
     [users],
   );
 
+  const updateAdminProfileState = (newProfile) => {
+    setAdminProfile(newProfile);
+  };
+
   const value = useMemo(
     () => ({
       users,
@@ -98,8 +104,10 @@ export const UserProvider = ({ children }) => {
       addUser,
       updateUser,
       deleteUser,
+      adminProfile,
+      updateAdminProfileState,
     }),
-    [addedUsers, error, loading, users],
+    [addedUsers, error, loading, users, adminProfile],
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

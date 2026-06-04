@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { login } from '../../utils/auth';
-import './Login.css';
 
 const Login = () => {
   const [error, setError] = useState('');
@@ -58,13 +57,13 @@ const Login = () => {
               </svg>
             </div>
 
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">
               Admin Portal
             </p>
-            <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-800">
+            <h1 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
               User Directory
             </h1>
-            <h2 className="mt-5 text-xl font-bold text-slate-800">
+            <h2 className="mt-5 text-[20px] font-semibold text-slate-800">
               Welcome Back
             </h2>
             <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
@@ -76,7 +75,7 @@ const Login = () => {
             <div>
               <label
                 htmlFor="username"
-                className="text-sm font-bold text-slate-700"
+                className="text-[13px] font-semibold tracking-[0.01em] text-slate-700"
               >
                 Username
               </label>
@@ -105,7 +104,7 @@ const Login = () => {
                     required: 'Username is required',
                   })}
                   placeholder="Enter your username"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-sm font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-4 text-[15px] font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                 />
               </div>
               {errors.username && (
@@ -116,7 +115,7 @@ const Login = () => {
             <div>
               <label
                 htmlFor="password"
-                className="text-sm font-bold text-slate-700"
+                className="text-[13px] font-semibold tracking-[0.01em] text-slate-700"
               >
                 Password
               </label>
@@ -145,7 +144,7 @@ const Login = () => {
                     required: 'Password is required',
                   })}
                   placeholder="Enter your password"
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-12 text-sm font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-12 pr-12 text-[15px] font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                 />
                 <button
                   type="button"
@@ -181,7 +180,7 @@ const Login = () => {
               </label>
               <a
                 href="#forgot-password"
-                className="font-bold text-blue-600 transition-colors duration-200 hover:text-indigo-600 focus:outline-none focus-visible:underline"
+                className="font-semibold text-blue-600 transition-colors duration-200 hover:text-indigo-600 focus:outline-none focus-visible:underline"
               >
                 Forgot Password?
               </a>
@@ -195,7 +194,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
             >
               Sign In
             </button>

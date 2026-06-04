@@ -92,10 +92,10 @@ const AddUser = () => {
   return (
     <div className="space-y-8">
       <section>
-        <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
+        <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">
           Add User
         </p>
-        <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-800">
+        <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
           Create Directory User
         </h2>
         <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500">
@@ -111,7 +111,7 @@ const AddUser = () => {
           <div className="grid gap-5 md:grid-cols-2">
             {fields.map((field) => (
               <div key={field.name} className={field.name === 'address' ? 'md:col-span-2' : ''}>
-                <label htmlFor={field.name} className="text-sm font-bold text-slate-700">
+                <label htmlFor={field.name} className="text-[13px] font-semibold tracking-[0.01em] text-slate-700">
                   {field.label}
                 </label>
                 <input
@@ -122,7 +122,7 @@ const AddUser = () => {
                     pattern: field.pattern,
                   })}
                   placeholder={field.placeholder}
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
                 />
                 {errors[field.name] && (
                   <p className="mt-2 text-xs font-semibold text-red-600">{errors[field.name].message}</p>
@@ -141,13 +141,13 @@ const AddUser = () => {
             <button
               type="button"
               onClick={() => navigate('/users')}
-              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition-colors duration-200 hover:bg-slate-50"
+              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors duration-200 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 sm:w-auto"
             >
               Save User
             </button>
@@ -155,8 +155,8 @@ const AddUser = () => {
         </form>
 
         <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Added Users</p>
-          <h3 className="mt-2 text-3xl font-black text-slate-800">{addedUsers.length}</h3>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Added Users</p>
+          <h3 className="mt-2 text-[30px] font-bold text-slate-800">{addedUsers.length}</h3>
           <p className="mt-2 text-sm font-medium text-slate-500">
             Local records added during this session.
           </p>
@@ -169,7 +169,7 @@ const AddUser = () => {
             ) : (
               addedUsers.slice(-4).reverse().map((user) => (
                 <div key={user.id} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <p className="text-sm font-bold text-slate-800">{user.name}</p>
+                  <p className="text-sm font-semibold text-slate-800">{user.name}</p>
                   <p className="text-xs font-semibold text-slate-500">@{user.username}</p>
                 </div>
               ))

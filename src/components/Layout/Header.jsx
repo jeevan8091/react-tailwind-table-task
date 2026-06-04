@@ -1,4 +1,34 @@
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../../context/UserContextValue';
+import { logout, getAdminProfile } from '../../utils/auth';
+
 const Header = ({ onMenuClick }) => {
+  const { adminProfile } = useContext(UserContext);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  const profile = adminProfile || getAdminProfile();
+  const fullName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || 'Admin';
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSignOut = () => {
+    setIsDropdownOpen(false);
+    logout();
+    navigate('/', { replace: true });
+  };
+
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="flex min-h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
@@ -15,17 +45,82 @@ const Header = ({ onMenuClick }) => {
           </button>
 
           <div>
-            <p className="hidden text-xs font-bold uppercase tracking-[0.18em] text-blue-600 sm:block">
+            <p className="hidden text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600 sm:block">
               Admin Portal
             </p>
-            <h1 className="text-base font-black tracking-tight text-slate-800 sm:mt-1 sm:text-lg">
+            <h1 className="text-base font-bold tracking-tight text-slate-800 sm:mt-1 sm:text-lg">
               User Directory Dashboard
             </h1>
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500 sm:px-4 sm:text-sm">
-          Welcome Admin 👋
+        {/* Profile Dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            id="header-profile-dropdown-trigger"
+            type="button"
+            onClick={() => setIsDropdownOpen((prev) => !prev)}
+            className="flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 sm:px-4"
+          >
+            {/* User Initial Badge */}
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-xs font-black text-white shadow-sm">
+              {(profile.firstName?.[0] || 'A').toUpperCase()}
+            </span>
+            <span className="hidden sm:block max-w-[120px] truncate">{fullName}</span>
+            <svg
+              className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {/* Dropdown Menu */}
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-64 origin-top-right rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 animate-fade-in z-50">
+              {/* User Info */}
+              <div className="px-4 py-3.5 border-b border-slate-100">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-black text-white flex-shrink-0">
+                    {(profile.firstName?.[0] || 'A').toUpperCase()}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-slate-800 truncate">{fullName}</p>
+                    <p className="text-xs font-semibold text-slate-400 truncate">{profile.email}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Menu Items */}
+              <div className="py-1.5">
+                <Link
+                  to="/profile"
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-700 transition-colors duration-150"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                  Profile
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={handleSignOut}
+                  className="flex w-full items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors duration-150"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

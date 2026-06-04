@@ -11,9 +11,9 @@ const UserDetailsModal = ({ user, onClose }) => {
       <div className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20">
         <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-600">User Details</p>
-            <h2 className="mt-1 text-xl font-black text-slate-800">{user.name || 'Unnamed user'}</h2>
-            <p className="mt-1 text-sm font-semibold text-slate-500">@{user.username || 'unknown'}</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">User Details</p>
+            <h2 className="mt-1 text-[20px] font-semibold text-slate-800">{user.name || 'Unnamed user'}</h2>
+            <p className="mt-1 text-sm font-medium text-slate-500">@{user.username || 'unknown'}</p>
           </div>
           <button
             type="button"
@@ -29,37 +29,37 @@ const UserDetailsModal = ({ user, onClose }) => {
 
         <div className="grid gap-4 px-5 py-5 sm:grid-cols-2 sm:px-6">
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Website</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Website</p>
             {user.website ? (
               <a
                 href={`https://${user.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex text-sm font-bold text-blue-600 hover:text-blue-700 hover:underline"
+                className="mt-2 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline"
               >
                 {user.website}
               </a>
             ) : (
-              <p className="mt-2 text-sm font-semibold text-slate-500">Website unavailable</p>
+              <p className="mt-2 text-sm font-medium text-slate-500">Website unavailable</p>
             )}
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Company</p>
-            <p className="mt-2 text-sm font-bold text-slate-800">{company.name || 'Company unavailable'}</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Company</p>
+            <p className="mt-2 text-sm font-semibold text-slate-800">{company.name || 'Company unavailable'}</p>
             <p className="mt-1 text-xs font-medium italic text-slate-500">
               {company.catchPhrase || 'No catchphrase available'}
             </p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:col-span-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Address</p>
-            <p className="mt-2 text-sm font-semibold text-slate-800">{fullAddress || 'Address unavailable'}</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Address</p>
+            <p className="mt-2 text-sm font-medium text-slate-800">{fullAddress || 'Address unavailable'}</p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:col-span-2">
-            <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Geo Location</p>
-            <p className="mt-2 font-mono text-sm font-semibold text-slate-700">
+            <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Geo Location</p>
+            <p className="mt-2 font-mono text-sm font-medium text-slate-700">
               Lat: {geo.lat ?? 'N/A'} · Lng: {geo.lng ?? 'N/A'}
             </p>
           </div>
@@ -69,7 +69,7 @@ const UserDetailsModal = ({ user, onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:bg-blue-700 sm:w-auto"
+            className="w-full rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:bg-blue-700 sm:w-auto"
           >
             Close
           </button>

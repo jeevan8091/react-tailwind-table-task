@@ -11,9 +11,9 @@ const DeleteConfirmationModal = ({ user, onCancel, onDelete }) => {
         </div>
 
         <div className="mt-5 text-center">
-          <h2 className="text-xl font-black text-slate-800">Delete user?</h2>
+          <h2 className="text-[20px] font-semibold text-slate-800">Delete user?</h2>
           <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-            Are you sure you want to delete <span className="font-bold text-slate-700">{user.name}</span>? This action removes the user from the current table view.
+            Are you sure you want to delete <span className="font-semibold text-slate-700">{user.name}</span>? This action removes the user from the current table view.
           </p>
         </div>
 
@@ -21,14 +21,14 @@ const DeleteConfirmationModal = ({ user, onCancel, onDelete }) => {
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-bold text-slate-700 transition-colors duration-200 hover:bg-slate-50"
+            className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors duration-200 hover:bg-slate-50"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={() => onDelete(user.id)}
-            className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-red-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-xl hover:shadow-red-100"
+            className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-red-100 transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-700 hover:shadow-xl hover:shadow-red-100"
           >
             Delete
           </button>

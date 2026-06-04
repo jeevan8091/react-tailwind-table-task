@@ -1,5 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { logout } from '../../utils/auth';
+import { NavLink } from 'react-router-dom';
 
 const navItems = [
   {
@@ -32,17 +31,9 @@ const navItems = [
 ];
 
 const Sidebar = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    onClose();
-    navigate('/', { replace: true });
-  };
-
   const linkClassName = ({ isActive }) =>
     [
-      'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition-colors duration-200',
+      'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-semibold transition-colors duration-200',
       isActive
         ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
         : 'text-slate-600 hover:bg-blue-50 hover:text-blue-700',
@@ -64,7 +55,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               </svg>
             </div>
             <div>
-              <p className="text-base font-black text-slate-800">User Directory</p>
+              <p className="text-base font-bold text-slate-800">User Directory</p>
               <p className="text-xs font-semibold text-slate-500">Admin Dashboard</p>
             </div>
           </div>
@@ -83,22 +74,11 @@ const Sidebar = ({ isOpen, onClose }) => {
 
         <nav className="flex flex-1 flex-col gap-2 px-4 pb-4">
           {navItems.map((item) => (
-            <NavLink key={item.path} to={item.path} className={linkClassName} onClick={onClose}>
+            <NavLink key={item.path} to={item.path} className={linkClassName}>
               {item.icon}
               {item.label}
             </NavLink>
           ))}
-
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="mt-auto flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold text-slate-600 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-700"
-          >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-            </svg>
-            Logout
-          </button>
         </nav>
       </div>
     </aside>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useUsers } from '../../hooks/useUsers';
@@ -59,8 +59,8 @@ const fields = [
   },
 ];
 
-const AddUser = () => {
-  const { addedUsers, addUser } = useUsers();
+const RegisterUser = () => {
+  const { registeredUsers, registerUser } = useUsers();
   const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState('');
   const {
@@ -80,10 +80,14 @@ const AddUser = () => {
     },
   });
 
+  useEffect(() => {
+    document.title = 'Register User';
+  }, []);
+
   const onSubmit = (values) => {
-    addUser(values);
+    registerUser(values);
     reset();
-    setSuccessMessage(`${values.fullName} was added to the user table.`);
+    setSuccessMessage(`${values.fullName} was registered.`);
     setTimeout(() => {
       navigate('/users');
     }, 1500);
@@ -93,13 +97,13 @@ const AddUser = () => {
     <div className="space-y-8">
       <section>
         <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">
-          Add User
+          Register User
         </p>
         <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-          Create Directory User
+          Register User
         </h2>
         <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500">
-          Add a local user record for the current admin session. No backend is required.
+          Register a new user record for the current admin session.
         </p>
       </section>
 
@@ -149,25 +153,25 @@ const AddUser = () => {
               type="submit"
               className="inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 sm:w-auto"
             >
-              Save User
+              Register User
             </button>
           </div>
         </form>
 
         <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Added Users</p>
-          <h3 className="mt-2 text-[30px] font-bold text-slate-800">{addedUsers.length}</h3>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Registered Users</p>
+          <h3 className="mt-2 text-[30px] font-bold text-slate-800">{registeredUsers.length}</h3>
           <p className="mt-2 text-sm font-medium text-slate-500">
-            Local records added during this session.
+            Local records registered during this session.
           </p>
 
           <div className="mt-5 space-y-3">
-            {addedUsers.length === 0 ? (
+            {registeredUsers.length === 0 ? (
               <p className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-500">
-                No local users added yet.
+                No local users registered yet.
               </p>
             ) : (
-              addedUsers.slice(-4).reverse().map((user) => (
+              registeredUsers.slice(-4).reverse().map((user) => (
                 <div key={user.id} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
                   <p className="text-sm font-semibold text-slate-800">{user.name}</p>
                   <p className="text-xs font-semibold text-slate-500">@{user.username}</p>
@@ -181,4 +185,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default RegisterUser;

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useUsers } from '../../hooks/useUsers';
 
 const Dashboard = () => {
-  const { users, addedUsers, loading, error } = useUsers();
+  const { users, registeredUsers, loading, error } = useUsers();
 
   const stats = [
     {
@@ -21,8 +21,8 @@ const Dashboard = () => {
       description: 'Registered domains',
     },
     {
-      label: 'Added Users',
-      value: addedUsers.length,
+      label: 'Registered Users',
+      value: registeredUsers.length,
       description: 'Created in this admin session',
     },
   ];
@@ -100,7 +100,7 @@ const Dashboard = () => {
               </Link>
 
               <Link
-                to="/add-user"
+                to="/register-user"
                 className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-blue-200 hover:shadow-md"
               >
                 <div className="flex items-center gap-4">
@@ -110,7 +110,7 @@ const Dashboard = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-indigo-700">Add User</p>
+                    <p className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-indigo-700">Register User</p>
                     <p className="mt-0.5 text-xs font-semibold text-slate-400">Create a new local record</p>
                   </div>
                 </div>

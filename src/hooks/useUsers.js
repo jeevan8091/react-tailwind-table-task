@@ -17,7 +17,7 @@ const getSearchText = (user) =>
     .toLowerCase();
 
 export const useUsers = (searchQuery = '') => {
-  const { users, addedUsers, loading, error, addUser, updateUser, deleteUser } = useUserContext();
+  const { users, registeredUsers, loading, error, registerUser, updateUser, deleteUser } = useUserContext();
 
   const filteredUsers = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -28,11 +28,11 @@ export const useUsers = (searchQuery = '') => {
 
   return {
     users,
-    addedUsers,
+    registeredUsers,
     filteredUsers,
     loading,
     error,
-    addUser,
+    registerUser,
     updateUser,
     deleteUser,
   };

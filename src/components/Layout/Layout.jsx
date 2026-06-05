@@ -36,7 +36,7 @@ const Layout = () => {
           }`}
         />
 
-        <div className={`flex flex-1 flex-col min-h-screen min-w-0 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'lg:pl-60' : 'lg:pl-0'}`}>
+        <div className="flex min-h-screen min-w-0 flex-1 flex-col transition-all duration-300 ease-in-out">
           <Header onMenuClick={toggleSidebar} />
           <main className="px-4 py-6 sm:px-6 lg:px-8">
             <Outlet />

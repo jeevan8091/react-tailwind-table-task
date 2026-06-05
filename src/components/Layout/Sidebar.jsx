@@ -42,7 +42,8 @@ const Sidebar = ({ isOpen, onClose }) => {
   return (
     <aside
       className={[
-        'fixed inset-y-0 left-0 z-40 lg:sticky lg:top-0 lg:h-screen border-r border-slate-200 bg-white shadow-xl transition-transform duration-300 ease-in-out will-change-transform w-60',
+        'fixed inset-y-0 left-0 z-40 w-60 border-r border-slate-200 bg-white shadow-xl transition-[transform,width] duration-300 ease-in-out will-change-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0',
+        isOpen ? 'lg:w-60' : 'lg:w-16',
         isOpen ? 'translate-x-0' : '-translate-x-full',
       ].join(' ')}
     >

@@ -25,23 +25,21 @@ const Layout = () => {
 
   return (
     <UserProvider>
-      <div className="min-h-screen bg-[#F8FAFC] text-slate-800">
+      <div className="flex min-h-screen bg-[#F8FAFC] text-slate-800">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
         {/* Sidebar backdrop (visual only — no click-to-close) */}
-        {isSidebarOpen && (
-          <div
-            aria-hidden="true"
-            className="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden pointer-events-none"
-          />
-        )}
+        <div
+          aria-hidden="true"
+          className={`fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-sm lg:hidden pointer-events-none transition-opacity duration-300 ease-in-out ${
+            isSidebarOpen ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
 
-        <div className={`min-h-screen transition-all duration-300 ease-out ${isSidebarOpen ? 'lg:pl-72' : 'lg:pl-0'}`}>
+        <div className="flex min-h-screen min-w-0 flex-1 flex-col transition-all duration-300 ease-in-out">
           <Header onMenuClick={toggleSidebar} />
           <main className="px-4 py-6 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-7xl">
-              <Outlet />
-            </div>
+            <Outlet />
           </main>
         </div>
       </div>

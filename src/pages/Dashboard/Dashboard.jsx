@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useUsers } from '../../hooks/useUsers';
 
 const Dashboard = () => {
-  const { users, addedUsers, loading, error } = useUsers();
+  const { users, registeredUsers, loading, error } = useUsers();
 
   const stats = [
     {
@@ -21,8 +21,8 @@ const Dashboard = () => {
       description: 'Registered domains',
     },
     {
-      label: 'Added Users',
-      value: addedUsers.length,
+      label: 'Registered Users',
+      value: registeredUsers.length,
       description: 'Created in this admin session',
     },
   ];
@@ -36,7 +36,7 @@ const Dashboard = () => {
         <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
           User Directory Dashboard
         </h2>
-        <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500">
+        <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
           Monitor users, companies, websites, and locally added directory records from one workspace.
         </p>
       </section>
@@ -80,7 +80,7 @@ const Dashboard = () => {
           <section className="mt-8 border-t border-slate-100 pt-8">
             <h3 className="text-[20px] font-semibold text-slate-800">Quick Actions</h3>
             <p className="mt-1 text-sm font-medium text-slate-500">Frequently used shortcuts for admin workflow.</p>
-            <div className="mt-5 grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="mt-5 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               <Link
                 to="/users"
                 className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-blue-200 hover:shadow-md"
@@ -100,7 +100,7 @@ const Dashboard = () => {
               </Link>
 
               <Link
-                to="/add-user"
+                to="/register-user"
                 className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-blue-200 hover:shadow-md"
               >
                 <div className="flex items-center gap-4">
@@ -110,7 +110,7 @@ const Dashboard = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-indigo-700">Add User</p>
+                    <p className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-indigo-700">Register User</p>
                     <p className="mt-0.5 text-xs font-semibold text-slate-400">Create a new local record</p>
                   </div>
                 </div>

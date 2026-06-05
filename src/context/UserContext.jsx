@@ -70,7 +70,7 @@ export const UserProvider = ({ children }) => {
     return () => controller.abort();
   }, []);
 
-  const addUser = (values) => {
+  const registerUser = (values) => {
     const newUser = toUserRecord(values);
     setUsers((currentUsers) => [...currentUsers, newUser]);
     return newUser;
@@ -86,7 +86,7 @@ export const UserProvider = ({ children }) => {
     setUsers((currentUsers) => currentUsers.filter((user) => user.id !== userId));
   };
 
-  const addedUsers = useMemo(
+  const registeredUsers = useMemo(
     () => users.filter((user) => user.isLocal),
     [users],
   );
@@ -98,16 +98,16 @@ export const UserProvider = ({ children }) => {
   const value = useMemo(
     () => ({
       users,
-      addedUsers,
+      registeredUsers,
       loading,
       error,
-      addUser,
+      registerUser,
       updateUser,
       deleteUser,
       adminProfile,
       updateAdminProfileState,
     }),
-    [addedUsers, error, loading, users, adminProfile],
+    [registeredUsers, error, loading, users, adminProfile],
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

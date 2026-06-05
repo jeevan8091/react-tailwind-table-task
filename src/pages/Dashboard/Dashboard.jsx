@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useUsers } from '../../hooks/useUsers';
 
 const Dashboard = () => {
-  const { users, registeredUsers, loading, error } = useUsers();
+  const { users, employeeRecords, loading, error } = useUsers();
 
   const stats = [
     {
@@ -21,9 +21,9 @@ const Dashboard = () => {
       description: 'Registered domains',
     },
     {
-      label: 'Registered Users',
-      value: registeredUsers.length,
-      description: 'Created in this admin session',
+      label: 'Employee Records',
+      value: employeeRecords.length,
+      description: 'Saved in this admin session',
     },
   ];
 
@@ -34,10 +34,10 @@ const Dashboard = () => {
           Welcome Admin
         </p>
         <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-          User Directory Dashboard
+          Employee Management Dashboard
         </h2>
         <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-          Monitor users, companies, websites, and locally added directory records from one workspace.
+          Monitor employees, companies, websites, and locally added employee records from one workspace.
         </p>
       </section>
 
@@ -100,7 +100,7 @@ const Dashboard = () => {
               </Link>
 
               <Link
-                to="/register-user"
+                to="/employee-form"
                 className="group flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:border-blue-200 hover:shadow-md"
               >
                 <div className="flex items-center gap-4">
@@ -110,8 +110,8 @@ const Dashboard = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-indigo-700">Register User</p>
-                    <p className="mt-0.5 text-xs font-semibold text-slate-400">Create a new local record</p>
+                    <p className="text-sm font-semibold text-slate-800 transition-colors group-hover:text-indigo-700">Employee Form</p>
+                    <p className="mt-0.5 text-xs font-semibold text-slate-400">Create employee records</p>
                   </div>
                 </div>
                 <span className="text-lg font-semibold text-slate-400 transition-colors group-hover:text-indigo-600">→</span>

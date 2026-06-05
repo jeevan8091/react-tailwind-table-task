@@ -20,8 +20,8 @@ const navItems = [
     ),
   },
   {
-    label: 'Register User',
-    path: '/register-user',
+    label: 'Employee Form',
+    path: '/employee-form',
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className={`transition-opacity transition-transform duration-300 ease-in-out will-change-transform ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}
               ${isOpen ? '' : 'pointer-events-none'}
             `}>
-              <p className="text-base font-bold text-slate-800 leading-tight">User Directory</p>
+              <p className="text-base font-bold text-slate-800 leading-tight">Employee Management</p>
               <p className="text-xs font-semibold text-slate-500 leading-tight">Admin Dashboard</p>
             </div>
           </div>

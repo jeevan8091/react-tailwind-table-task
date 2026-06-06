@@ -49,7 +49,7 @@ const Header = ({ onMenuClick }) => {
               Admin Portal
             </p>
             <h1 className="text-base font-bold tracking-tight text-slate-800 sm:mt-1 sm:text-lg">
-              Employee Management Dashboard
+              Workforce Hub
             </h1>
           </div>
         </div>

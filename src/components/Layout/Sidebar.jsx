@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, onClose }) => {
             <div className={`transition-opacity transition-transform duration-300 ease-in-out will-change-transform ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}
               ${isOpen ? '' : 'pointer-events-none'}
             `}>
-              <p className="text-base font-bold text-slate-800 leading-tight">Employee Management</p>
+              <p className="text-base font-bold text-slate-800 leading-tight">Workforce Hub</p>
               <p className="text-xs font-semibold text-slate-500 leading-tight">Admin Dashboard</p>
             </div>
           </div>

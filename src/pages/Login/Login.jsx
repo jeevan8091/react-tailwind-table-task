@@ -61,7 +61,7 @@ const Login = () => {
               Admin Portal
             </p>
             <h1 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-              Employee Management
+              Workforce Hub
             </h1>
             <h2 className="mt-5 text-[20px] font-semibold text-slate-800">
               Welcome Back

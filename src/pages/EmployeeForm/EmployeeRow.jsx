@@ -3,7 +3,11 @@ import EmployeeActions from './EmployeeActions';
 const EmployeeRow = ({ row, index, onChange, onDeleteRow, rowError = {} }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const fieldValue = type === 'checkbox' ? checked : value;
+    const rawValue = type === 'checkbox' ? checked : value;
+    const fieldValue = name === 'mobile'
+      ? rawValue.toString().replace(/\D/g, '').slice(0, 10)
+      : rawValue;
+
     onChange(index, name, fieldValue);
   };
 
@@ -13,7 +17,7 @@ const EmployeeRow = ({ row, index, onChange, onDeleteRow, rowError = {} }) => {
 
   const renderError = (field) =>
     rowError[field] ? (
-      <p className="mt-1 text-xs text-red-600 font-medium">Required</p>
+      <p className="mt-1 text-xs text-red-600 font-medium">{rowError[field]}</p>
     ) : null;
 
   return (
@@ -33,6 +37,8 @@ const EmployeeRow = ({ row, index, onChange, onDeleteRow, rowError = {} }) => {
       <td className="px-5 py-4">
         <input
           type="tel"
+          inputMode="numeric"
+          maxLength={10}
           name="mobile"
           placeholder="Enter mobile"
           value={row.mobile}
@@ -66,17 +72,26 @@ const EmployeeRow = ({ row, index, onChange, onDeleteRow, rowError = {} }) => {
         {renderError('relation')}
       </td>
       <td className="px-5 py-4">
-        <select
+        <input
+          type="text"
           name="profession"
+          list="profession-suggestions"
+          placeholder="Enter profession"
           value={row.profession}
           onChange={handleInputChange}
           className={getInputClass('profession')}
-        >
-          <option value="">Select...</option>
-          <option value="Engineer">Engineer</option>
-          <option value="Manager">Manager</option>
-          <option value="Analyst">Analyst</option>
-        </select>
+        />
+        <datalist id="profession-suggestions">
+          <option value="Engineer" />
+          <option value="Doctor" />
+          <option value="Teacher" />
+          <option value="Manager" />
+          <option value="Accountant" />
+          <option value="Developer" />
+          <option value="Designer" />
+          <option value="Consultant" />
+          <option value="Analyst" />
+        </datalist>
         {renderError('profession')}
       </td>
       <td className="px-5 py-4 text-center">

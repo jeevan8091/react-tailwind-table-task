@@ -8,10 +8,10 @@ const Users = () => {
           Users
         </p>
         <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-          User Directory
+          Employee Directory
         </h2>
         <p className="mt-2 max-w-2xl text-sm font-medium leading-6 text-slate-500">
-          Search, review, and manage user directory information.
+          Search, review, and manage employee information.
         </p>
       </section>
 

@@ -34,10 +34,10 @@ const Dashboard = () => {
           Welcome Admin
         </p>
         <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-          Employee Management Dashboard
+          Workforce Management Dashboard
         </h2>
         <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-          Monitor employees, companies, websites, and locally added employee records from one workspace.
+          Manage employee records, workforce information, and organizational data from a centralized workspace.
         </p>
       </section>
 

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { login } from '../../utils/auth';
 
+const ERROR_TOAST_ID = 'login-error';
+
 const Login = () => {
-  const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -23,11 +25,16 @@ const Login = () => {
     const isLoggedIn = login({ username, password });
 
     if (!isLoggedIn) {
-      setError('Invalid Username or Password');
+      toast.error('Invalid username or password.', {
+        id: ERROR_TOAST_ID,
+        duration: 4000,
+      });
       return;
     }
 
-    setError('');
+    toast.success('Welcome back! Login successful.', {
+      duration: 3000,
+    });
     navigate('/dashboard', { replace: true });
   };
 
@@ -61,7 +68,7 @@ const Login = () => {
               Admin Portal
             </p>
             <h1 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-              Employee Management
+              Workforce Hub
             </h1>
             <h2 className="mt-5 text-[20px] font-semibold text-slate-800">
               Welcome Back
@@ -185,12 +192,6 @@ const Login = () => {
                 Forgot Password?
               </a>
             </div>
-
-            {error && (
-              <p role="alert" className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-center text-sm font-semibold text-red-600">
-                {error}
-              </p>
-            )}
 
             <button
               type="submit"

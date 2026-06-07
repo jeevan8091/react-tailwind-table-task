@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useUsers } from '../../hooks/useUsers';
+import { useEffect, useRef, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import EmployeeTable from './EmployeeTable';
 import {
   validateEmployeeRow,
   validateAllRows,
-  convertRowToUser,
   getErrorMessage,
 } from './EmployeeValidation';
+
+const ERROR_TOAST_ID = 'employee-validation-error';
 
 const createEmployeeRow = (sNo) => ({
   sNo,
@@ -20,23 +21,20 @@ const createEmployeeRow = (sNo) => ({
 
 
 const EmployeeForm = () => {
-  const { employeeRecords, saveEmployeeRecord } = useUsers();
   // React Hook Form setup is intentionally preserved elsewhere in the app.
-
-  // Alert message state for validation failures
-  const [alertMessage, setAlertMessage] = useState('');
 
   // Track field errors per row (e.g., {0: {name:true, mobile:true}})
   const [rowErrors, setRowErrors] = useState({});
+  // Track which rows have validation triggered by action (Add Row / Submit)
+  const [validatedRows, setValidatedRows] = useState({});
+  const formRef = useRef(null);
 
   // Delete row handler
   const handleDeleteRow = (index) => {
     if (rows.length === 1) {
-      setAlertMessage(getErrorMessage('LAST_ROW'));
+      toast.error(getErrorMessage('LAST_ROW'), { id: ERROR_TOAST_ID, duration: 4000 });
       return;
     }
-    // Clear any alert
-    setAlertMessage('');
     // Remove the row and re-index
     setRows((prev) => {
       const newRows = prev.filter((_, i) => i !== index);
@@ -66,11 +64,52 @@ const EmployeeForm = () => {
 
   const [rows, setRows] = useState([createEmployeeRow(1)]);
 
-  const handleChange = (index, name, value) => {
-    setRows((prev) =>
-      prev.map((row, i) => (i === index ? { ...row, [name]: value } : row))
-    );
+  const isMobileValid = (value) => /^\d{10}$/.test(value?.toString().trim() || '');
+
+  const normalizeValue = (name, value) => {
+    if (name === 'mobile') {
+      return value.toString().replace(/\D/g, '').slice(0, 10);
+    }
+    return value;
   };
+
+  const handleChange = (index, name, value) => {
+    const normalizedValue = normalizeValue(name, value);
+
+    setRows((prev) =>
+      prev.map((row, i) => (i === index ? { ...row, [name]: normalizedValue } : row))
+    );
+
+    setRowErrors((prev) => {
+      const rowError = prev[index];
+      if (!rowError || !rowError[name]) {
+        return prev;
+      }
+
+      const isValueValid =
+        name === 'mobile'
+          ? isMobileValid(normalizedValue)
+          : normalizedValue?.toString().trim() !== '';
+
+      if (!isValueValid) {
+        return prev;
+      }
+
+      const nextRowError = { ...rowError };
+      delete nextRowError[name];
+
+      const nextErrors = { ...prev };
+      if (Object.keys(nextRowError).length === 0) {
+        delete nextErrors[index];
+      } else {
+        nextErrors[index] = nextRowError;
+      }
+
+      return nextErrors;
+    });
+  };
+
+  
 
   const handleAddRow = async (index) => {
     const currentRow = rows[index];
@@ -79,13 +118,13 @@ const EmployeeForm = () => {
     const missing = validateEmployeeRow(currentRow);
 
     if (Object.keys(missing).length > 0) {
-      setAlertMessage(getErrorMessage('INCOMPLETE_ROW'));
+      // mark this row as validated so user sees inline messages
+      setValidatedRows((p) => ({ ...p, [index]: true }));
+      toast.error(getErrorMessage('INCOMPLETE_ROW'), { id: ERROR_TOAST_ID, duration: 4000 });
       setRowErrors((prev) => ({ ...prev, [index]: missing }));
       return;
     }
 
-    // Clear previous errors
-    setAlertMessage('');
     setRowErrors((prev) => {
       const nextErrors = { ...prev };
       delete nextErrors[index];
@@ -109,42 +148,35 @@ const EmployeeForm = () => {
     const allErrors = validateAllRows(rows);
 
     if (Object.keys(allErrors).length > 0) {
-      setAlertMessage(getErrorMessage('INCOMPLETE_ALL'));
+      // mark rows that failed as validated so inline messages appear
+      const marked = {};
+      Object.keys(allErrors).forEach((k) => (marked[k] = true));
+      setValidatedRows((p) => ({ ...p, ...marked }));
+      toast.error('Please complete all required employee details before saving.', {
+        id: ERROR_TOAST_ID,
+        duration: 4000,
+      });
       setRowErrors(allErrors);
       return;
     }
 
-    // Clear any previous errors
-    setAlertMessage('');
     setRowErrors({});
-
-    // Register all employees
-    try {
-      rows.forEach((row) => {
-        const userRecord = convertRowToUser(row);
-        saveEmployeeRecord(userRecord);
-      });
-
-      // Show success feedback and reset
-      setAlertMessage('Employee record saved successfully.');
-      setRows([
-        {
-          sNo: 1,
-          name: '',
-          mobile: '',
-          dob: '',
-          relation: '',
-          profession: '',
-          emergency: false,
-        },
-      ]);
-
-      alert(`Successfully registered ${rows.length} employee(s)!`);
-    } catch (error) {
-      setAlertMessage(getErrorMessage('REGISTRATION_ERROR'));
-      console.error('Registration error:', error);
-    }
+    setValidatedRows({});
   };
+
+  // Clear validation messages when user clicks outside the form
+  useEffect(() => {
+    const onClick = (e) => {
+      if (!formRef.current) return;
+      if (!formRef.current.contains(e.target)) {
+        setRowErrors({});
+        setValidatedRows({});
+      }
+    };
+
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -160,14 +192,7 @@ const EmployeeForm = () => {
         </p>
       
 
-        {/* Alert for validation */}
-        {alertMessage && (
-          <div className="mb-4 rounded bg-yellow-100 border-l-4 border-yellow-500 p-4 text-yellow-700">
-            {alertMessage}
-          </div>
-        )}
-
-        <form className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" onSubmit={handleSubmit}>
+        <form ref={formRef} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" onSubmit={handleSubmit}>
           {/* Header with Add Row (plus) icon */}
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-slate-800">Employee Details</h3>
@@ -179,40 +204,9 @@ const EmployeeForm = () => {
             </button>
           </div>
           <EmployeeTable rows={rows} onChange={handleChange} onAddRow={handleAddRow} onDeleteRow={handleDeleteRow} rowErrors={rowErrors} />
-
-          {/* Save Button */}
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="submit"
-              className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.3A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-              </svg>
-              Save Employee Records
-            </button>
-          </div>
         </form>
       </section>
 
-      <aside className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Employee Records</p>
-        <h3 className="mt-2 text-[30px] font-bold text-slate-800">{employeeRecords.length}</h3>
-        <p className="mt-2 text-sm font-medium text-slate-500">Local employee records saved during this session.</p>
-
-        <div className="mt-5 space-y-3">
-          {employeeRecords.length === 0 ? (
-            <p className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-500">No local employee records saved yet.</p>
-          ) : (
-            employeeRecords.slice(-4).reverse().map((user) => (
-              <div key={user.id} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                <p className="text-sm font-semibold text-slate-800">{user.name}</p>
-                <p className="text-xs font-semibold text-slate-500">Employee record added</p>
-              </div>
-            ))
-          )}
-        </div>
-      </aside>
     </div>
   );
 };

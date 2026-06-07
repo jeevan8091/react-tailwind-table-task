@@ -12,11 +12,20 @@ export const REQUIRED_FIELDS = ['name', 'mobile', 'dob', 'relation', 'profession
  */
 export const validateEmployeeRow = (row) => {
   const missing = {};
+
   REQUIRED_FIELDS.forEach((field) => {
-    if (!row[field] || row[field].toString().trim() === '') {
-      missing[field] = true;
+    const value = row[field]?.toString().trim() || '';
+
+    if (!value) {
+      missing[field] = 'Required';
+      return;
+    }
+
+    if (field === 'mobile' && !/^\d{10}$/.test(value)) {
+      missing[field] = 'Please enter a valid 10-digit mobile number.';
     }
   });
+
   return missing;
 };
 

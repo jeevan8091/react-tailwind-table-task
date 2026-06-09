@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { checkAdminPassword, updateAdminPassword } from '../../../utils/auth';
+import { checkAdminPassword, updateAdminPassword } from '../../../redux/utils/auth';
 import { getPasswordStrength } from '../utils/PasswordStrength';
 
 const EyeIcon = ({ open }) => (

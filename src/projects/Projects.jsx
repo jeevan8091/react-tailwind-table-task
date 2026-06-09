@@ -1,8 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useRef, useState, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import ProjectTable from './ProjectTable';
-import { createProject } from '../thunk/projectThunk';
+import ProjectDeleteModal from './ProjectDeleteModal';
+import SearchBar from '../components/UserTable/SearchBar';
+import {
+  fetchProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+  viewProject,
+} from '../redux/thunk/projectThunk';
 import {
   validateProjectRow,
   validateAllRows,
@@ -18,6 +26,32 @@ const createProjectRow = (sNo) => ({
   projectDate: '',
   status: '',
 });
+
+// Helper for formatting date
+const formatDate = (dateStr) => {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+};
+
+// StatusBadge Component
+const StatusBadge = ({ status }) => {
+  const styles = {
+    'In Progress': 'bg-amber-50 text-amber-700 border border-amber-200',
+    Completed: 'bg-emerald-50 text-emerald-700 border border-emerald-200',
+    Planning: 'bg-blue-50 text-blue-700 border border-blue-200',
+    'On Hold': 'bg-rose-50 text-rose-700 border border-rose-200',
+  };
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+        styles[status] ?? 'bg-slate-50 text-slate-700 border border-slate-200'
+      }`}
+    >
+      {status}
+    </span>
+  );
+};
 
 // Discard Confirmation Modal Component
 const DiscardConfirmModal = ({ isOpen, onCancel, onConfirm }) => {
@@ -64,17 +98,32 @@ const Projects = () => {
   const dispatch = useDispatch();
   const formRef = useRef(null);
 
-  // Track field errors per row (e.g., {0: {name: 'Required', shortCode: 'Required'}})
+  // Redux State
+  const { projects = [], loading } = useSelector((state) => state.project);
+
+  // Track field errors per row
   const [rowErrors, setRowErrors] = useState({});
   const [rows, setRows] = useState([createProjectRow(1)]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showDiscardConfirm, setShowDiscardConfirm] = useState(false);
 
+  // Edit Mode State
+  const [editingProjectId, setEditingProjectId] = useState(null);
+
+  // Delete Confirm State
+  const [projectToDelete, setProjectToDelete] = useState(null);
+
+  // Pagination State for Project Records Table
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const itemsPerPage = 5;
+
   useEffect(() => {
     document.title = 'Projects';
-  }, []);
+    dispatch(fetchProjects());
+  }, [dispatch]);
 
-  // Handle click outside to clear validation errors, matching Employee Form behavior
+  // Handle click outside to clear validation errors
   useEffect(() => {
     const onClick = (e) => {
       if (!formRef.current) return;
@@ -118,30 +167,7 @@ const Projects = () => {
     });
   };
 
-  const handleAddRow = () => {
-    const lastIndex = rows.length - 1;
-    const lastRow = rows[lastIndex];
 
-    // Validate the current last row before adding a new one
-    const missing = validateProjectRow(lastRow);
-
-    if (Object.keys(missing).length > 0) {
-      toast.error(getErrorMessage('INCOMPLETE_ROW'), { id: ERROR_TOAST_ID, duration: 4000 });
-      setRowErrors((prev) => ({ ...prev, [lastIndex]: missing }));
-      return;
-    }
-
-    setRowErrors((prev) => {
-      const nextErrors = { ...prev };
-      delete nextErrors[lastIndex];
-      return nextErrors;
-    });
-
-    setRows((prev) => [
-      ...prev,
-      createProjectRow(prev.length + 1)
-    ]);
-  };
 
   const handleDeleteRow = (index) => {
     if (rows.length === 1) {
@@ -149,13 +175,11 @@ const Projects = () => {
       return;
     }
 
-    // Remove the row and re-index S.No
     setRows((prev) => {
       const newRows = prev.filter((_, i) => i !== index);
       return newRows.map((row, i) => ({ ...row, sNo: i + 1 }));
     });
 
-    // Shift validation errors
     setRowErrors((prev) => {
       const rest = Object.fromEntries(
         Object.entries(prev).filter(([key]) => Number(key) !== index)
@@ -170,34 +194,49 @@ const Projects = () => {
   };
 
   const handleDiscardClick = () => {
-    const hasUnsavedChanges =
-      rows.length > 1 ||
-      rows.some(
-        (row) =>
-          row.name.trim() !== '' ||
-          row.shortCode.trim() !== '' ||
-          row.projectDate !== '' ||
-          row.status !== ''
-      );
+    let hasUnsavedChanges = false;
+    if (editingProjectId) {
+      const original = projects.find((p) => p.id === editingProjectId);
+      if (original) {
+        const current = rows[0];
+        hasUnsavedChanges =
+          rows.length > 1 ||
+          current.name !== (original.name || '') ||
+          current.shortCode !== (original.shortCode || '') ||
+          current.projectDate !== (original.projectDate || '') ||
+          current.status !== (original.status || '');
+      }
+    } else {
+      hasUnsavedChanges =
+        rows.length > 1 ||
+        rows.some(
+          (row) =>
+            row.name.trim() !== '' ||
+            row.shortCode.trim() !== '' ||
+            row.projectDate !== '' ||
+            row.status !== ''
+        );
+    }
 
     if (hasUnsavedChanges) {
       setShowDiscardConfirm(true);
     } else {
       setRows([createProjectRow(1)]);
       setRowErrors({});
+      setEditingProjectId(null);
     }
   };
 
   const handleDiscardConfirm = () => {
     setRows([createProjectRow(1)]);
     setRowErrors({});
+    setEditingProjectId(null);
     setShowDiscardConfirm(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all rows
     const allErrors = validateAllRows(rows);
 
     if (Object.keys(allErrors).length > 0) {
@@ -213,30 +252,101 @@ const Projects = () => {
     setIsSubmitting(true);
 
     try {
-      // Dispatch thunks to persist all entered projects
-      await Promise.all(
-        rows.map((row) =>
-          dispatch(
-            createProject({
-              name: row.name,
-              shortCode: row.shortCode,
-              projectDate: row.projectDate,
-              status: row.status,
-              description: '',
-            })
+      if (editingProjectId) {
+        // Edit Mode: Update single project
+        const row = rows[0];
+        await dispatch(
+          updateProject(editingProjectId, {
+            name: row.name,
+            shortCode: row.shortCode,
+            projectDate: row.projectDate,
+            status: row.status,
+            description: '',
+          })
+        );
+        toast.success('Project updated successfully!');
+        setEditingProjectId(null);
+      } else {
+        // Create Mode: Batch persist
+        await Promise.all(
+          rows.map((row) =>
+            dispatch(
+              createProject({
+                name: row.name,
+                shortCode: row.shortCode,
+                projectDate: row.projectDate,
+                status: row.status,
+                description: '',
+              })
+            )
           )
-        )
-      );
+        );
+        toast.success('Project records saved successfully!');
+      }
 
-      toast.success('Project records saved successfully!');
-      // Reset form to a single empty row
       setRows([createProjectRow(1)]);
+      dispatch(fetchProjects());
     } catch (err) {
       toast.error(err?.message || 'Failed to save project records. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // Start Editing Flow
+  const handleStartEdit = (project) => {
+    setRows([
+      {
+        sNo: 1,
+        name: project.name || '',
+        shortCode: project.shortCode || '',
+        projectDate: project.projectDate || '',
+        status: project.status || '',
+      },
+    ]);
+    setRowErrors({});
+    setEditingProjectId(project.id);
+    formRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Delete Confirmation Flow
+  const handleDeleteConfirm = async () => {
+    try {
+      await dispatch(deleteProject(projectToDelete.id));
+      toast.success('Project deleted successfully!');
+      setProjectToDelete(null);
+
+      // If the currently edited project was deleted, reset the form
+      if (editingProjectId === projectToDelete.id) {
+        setEditingProjectId(null);
+        setRows([createProjectRow(1)]);
+        setRowErrors({});
+      }
+
+      dispatch(fetchProjects());
+    } catch (err) {
+      toast.error(err?.message || 'Failed to delete project.');
+    }
+  };
+
+  // Pagination Logic for Project Records
+  const filteredProjects = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return projects;
+    return projects.filter((project) => {
+      return (
+        (project.name || '').toLowerCase().includes(query) ||
+        (project.shortCode || '').toLowerCase().includes(query) ||
+        (project.status || '').toLowerCase().includes(query)
+      );
+    });
+  }, [projects, searchQuery]);
+
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const paginatedProjects = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filteredProjects.slice(start, start + itemsPerPage);
+  }, [filteredProjects, currentPage]);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -248,44 +358,35 @@ const Projects = () => {
           Projects Module
         </h2>
         <p className="mt-2 text-sm font-medium text-slate-500">
-          Fill in project details to register new project records.
+          Fill in project details to register or update project records.
         </p>
       </section>
 
+      <SearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        placeholder="Search by project name, short code, status..."
+        id="project-search"
+      />
+
+      {/* Project Details Form Section */}
       <form
         ref={formRef}
         onSubmit={handleSubmit}
         className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
       >
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-slate-800">Project Details</h3>
-          <button
-            type="button"
-            className="flex items-center text-blue-600 hover:text-blue-800 font-semibold text-sm transition-colors duration-150"
-            onClick={handleAddRow}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 mr-1"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Add Row
-          </button>
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-slate-800">
+            {editingProjectId ? 'Edit Project' : 'Project Details'}
+          </h3>
         </div>
 
         <ProjectTable
           rows={rows}
           onChange={handleChange}
-          onAddRow={handleAddRow}
           onDeleteRow={handleDeleteRow}
           rowErrors={rowErrors}
+          editingProjectId={editingProjectId}
         />
 
         <div className="mt-6 flex justify-end gap-3">
@@ -307,16 +408,141 @@ const Projects = () => {
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
             )}
-            Save Project Records
+            {editingProjectId ? 'Update Project' : 'Save Project Records'}
           </button>
         </div>
       </form>
+
+      {/* Project Records Table Section */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-5 shadow-sm sm:p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-slate-800">Project Records</h3>
+        </div>
+
+        <div className="w-full overflow-x-auto rounded-lg border border-slate-200">
+          <table className="w-full border-collapse">
+            <thead className="bg-slate-100 border-b border-slate-200">
+              <tr className="text-[12px] uppercase tracking-wide text-slate-600">
+                <th className="px-5 py-3 text-left font-semibold">S.No</th>
+                <th className="px-5 py-3 text-left font-semibold">Project Name</th>
+                <th className="px-5 py-3 text-left font-semibold">Project Short Code</th>
+                <th className="px-5 py-3 text-left font-semibold">Project Date</th>
+                <th className="px-5 py-3 text-left font-semibold">Status</th>
+                <th className="px-5 py-3 text-center font-semibold">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-slate-200">
+              {paginatedProjects.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-10 text-center text-sm font-semibold text-slate-400">
+                    No project records registered yet.
+                  </td>
+                </tr>
+              ) : (
+                paginatedProjects.map((project, idx) => {
+                  const sNo = idx + 1 + (currentPage - 1) * itemsPerPage;
+                  return (
+                    <tr key={project.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="px-5 py-4 text-sm font-semibold text-slate-700">{sNo}</td>
+                      <td className="px-5 py-4 text-sm font-bold text-slate-800">{project.name}</td>
+                      <td className="px-5 py-4">
+                        <span className="rounded bg-slate-100 px-2 py-0.5 text-xs font-mono font-bold text-slate-600">
+                          {project.shortCode}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-sm font-medium text-slate-600">
+                        {formatDate(project.projectDate)}
+                      </td>
+                      <td className="px-5 py-4">
+                        <StatusBadge status={project.status} />
+                      </td>
+                      <td className="px-5 py-4 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleStartEdit(project)}
+                            title="Edit"
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                          >
+                            ✏️
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setProjectToDelete(project)}
+                            title="Delete"
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-100 bg-red-50 text-red-600 transition-colors duration-200 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Footer with Pagination and Count */}
+        {filteredProjects.length > 0 && (
+          <div className="flex flex-col gap-4 border-t border-slate-150 px-5 py-4 sm:flex-row sm:items-center sm:justify-between mt-2">
+            <p className="text-xs text-slate-400">
+              Showing <span className="font-semibold text-slate-600">{filteredProjects.length > 0 ? Math.min((currentPage - 1) * itemsPerPage + 1, filteredProjects.length) : 0}</span> to{' '}
+              <span className="font-semibold text-slate-600">{Math.min(currentPage * itemsPerPage, filteredProjects.length)}</span> of{' '}
+              <span className="font-semibold text-slate-600">{filteredProjects.length}</span> projects
+            </p>
+            {totalPages > 1 && (
+              <nav className="flex items-center gap-1 self-center sm:self-auto" aria-label="Pagination">
+                <button
+                  type="button"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  className="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => setCurrentPage(page)}
+                    className={`inline-flex h-9 w-9 items-center justify-center rounded-xl text-xs font-semibold transition-all duration-150 ${
+                      currentPage === page
+                        ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
+                        : 'border border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                  className="inline-flex h-9 items-center justify-center rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-50 disabled:pointer-events-none"
+                >
+                  Next
+                </button>
+              </nav>
+            )}
+          </div>
+        )}
+      </div>
 
       <DiscardConfirmModal
         isOpen={showDiscardConfirm}
         onCancel={() => setShowDiscardConfirm(false)}
         onConfirm={handleDiscardConfirm}
       />
+
+      {projectToDelete && (
+        <ProjectDeleteModal
+          project={projectToDelete}
+          onClose={() => setProjectToDelete(null)}
+          onConfirm={handleDeleteConfirm}
+        />
+      )}
     </div>
   );
 };

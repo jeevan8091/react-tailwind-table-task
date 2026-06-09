@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from 'react';
 import { UserContext } from '../../context/UserContextValue';
-import { getAdminProfile } from '../../utils/auth';
+import { getAdminProfile } from '../../redux/utils/auth';
 import { TABS, LOGIN_HISTORY, RECENT_ACTIONS } from './utils/profileConstants';
 import ProfileTabs from './components/ProfileTabs';
 import ProfileForm from './components/ProfileForm';

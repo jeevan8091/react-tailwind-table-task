@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { updateAdminProfile } from '../../../utils/auth';
+import { updateAdminProfile } from '../../../redux/utils/auth';
 
 const ProfileForm = ({ profile, updateAdminProfileState }) => {
   const [profileMsg, setProfileMsg] = useState('');

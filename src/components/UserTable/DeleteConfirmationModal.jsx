@@ -1,4 +1,4 @@
-const DeleteConfirmationModal = ({ user, onCancel, onDelete }) => {
+const DeleteConfirmationModal = ({ user, onCancel, onDelete, title = "Delete user?", message }) => {
   if (!user) return null;
 
   return (
@@ -11,9 +11,9 @@ const DeleteConfirmationModal = ({ user, onCancel, onDelete }) => {
         </div>
 
         <div className="mt-5 text-center">
-          <h2 className="text-[20px] font-semibold text-slate-800">Delete user?</h2>
+          <h2 className="text-[20px] font-semibold text-slate-800">{title}</h2>
           <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
-            Are you sure you want to delete <span className="font-semibold text-slate-700">{user.name}</span>? This action removes the user from the current table view.
+            {message || <>Are you sure you want to delete <span className="font-semibold text-slate-700">{user.name}</span>? This action removes the user from the current table view.</>}
           </p>
         </div>
 

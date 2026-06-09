@@ -256,12 +256,15 @@ const Projects = () => {
         // Edit Mode: Update single project
         const row = rows[0];
         await dispatch(
-          updateProject(editingProjectId, {
-            name: row.name,
-            shortCode: row.shortCode,
-            projectDate: row.projectDate,
-            status: row.status,
-            description: '',
+          updateProject({
+            projectId: editingProjectId,
+            projectData: {
+              name: row.name,
+              shortCode: row.shortCode,
+              projectDate: row.projectDate,
+              status: row.status,
+              description: '',
+            },
           })
         );
         toast.success('Project updated successfully!');
@@ -286,6 +289,7 @@ const Projects = () => {
 
       setRows([createProjectRow(1)]);
       dispatch(fetchProjects());
+      setCurrentPage(1);
     } catch (err) {
       toast.error(err?.message || 'Failed to save project records. Please try again.');
     } finally {

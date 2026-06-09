@@ -7,7 +7,7 @@ import Profile from '../pages/Profile/Profile';
 import Projects from '../projects/Projects';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout/Layout';
-import { isAuthenticated } from '../utils/auth';
+import { isAuthenticated } from '../redux/utils/auth';
 
 const HomeRoute = () => {
   return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Login />;

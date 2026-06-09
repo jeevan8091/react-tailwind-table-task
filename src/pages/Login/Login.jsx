@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { login } from '../../utils/auth';
+import { login } from '../../redux/utils/auth';
 
 const ERROR_TOAST_ID = 'login-error';
 

@@ -17,15 +17,15 @@ const EmployeeTable = ({ rows, onChange, onAddRow, onDeleteRow, rowErrors }) => 
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-slate-200">
-          {rows.map((row, index) => (
+          {rows.map((row) => (
             <EmployeeRow
               key={row.sNo}
               row={row}
-              index={index}
+              index={row.sNo}
               onChange={onChange}
               onAddRow={onAddRow}
               onDeleteRow={onDeleteRow}
-              rowError={rowErrors && rowErrors[index] ? rowErrors[index] : {}}
+              rowError={rowErrors && rowErrors[row.sNo] ? rowErrors[row.sNo] : {}}
             />
           ))}
         </tbody>

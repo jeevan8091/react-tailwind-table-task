@@ -1,17 +1,17 @@
-const SearchBar = ({ searchQuery, setSearchQuery }) => {
+const SearchBar = ({ searchQuery, setSearchQuery, placeholder = "Search by name, email, company...", id = "user-search" }) => {
   return (
     <div className="w-full">
       {/* Search Input */}
       <div className="relative flex-1 max-w-md w-full">
-        <label htmlFor="user-search" className="sr-only">
-          Search users
+        <label htmlFor={id} className="sr-only">
+          {placeholder}
         </label>
         <input
-          id="user-search"
+          id={id}
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search by name, email, company..."
+          placeholder={placeholder}
           className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm font-semibold text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 shadow-sm"
         />
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

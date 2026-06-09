@@ -1,6 +1,6 @@
 import ProjectRow from './ProjectRow';
 
-const ProjectTable = ({ rows, onChange, onAddRow, onDeleteRow, rowErrors }) => {
+const ProjectTable = ({ rows, onChange, onDeleteRow, rowErrors, editingProjectId }) => {
   return (
     <div className="w-full overflow-x-auto rounded-lg border border-slate-200">
       <table className="w-full border-collapse">
@@ -17,11 +17,10 @@ const ProjectTable = ({ rows, onChange, onAddRow, onDeleteRow, rowErrors }) => {
         <tbody className="bg-white divide-y divide-slate-200">
           {rows.map((row, index) => (
             <ProjectRow
-              key={row.sNo}
+              key={`${row.sNo}-${editingProjectId || 'new'}`}
               row={row}
               index={index}
               onChange={onChange}
-              onAddRow={onAddRow}
               onDeleteRow={onDeleteRow}
               rowError={rowErrors && rowErrors[index] ? rowErrors[index] : {}}
             />

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContextValue';
-import { logout, getAdminProfile } from '../../utils/auth';
+import { logout, getAdminProfile } from '../../redux/utils/auth';
 
 const Header = ({ onMenuClick }) => {
   const { adminProfile } = useContext(UserContext);

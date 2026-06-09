@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { UserContext } from './UserContextValue';
-import { getAdminProfile } from '../utils/auth';
+import { getAdminProfile } from '../redux/utils/auth';
 
 const USERS_URL = 'https://jsonplaceholder.typicode.com/users';
 

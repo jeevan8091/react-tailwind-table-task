@@ -25,8 +25,6 @@ const EmployeeForm = () => {
 
   // Track field errors per row (e.g., {0: {name:true, mobile:true}})
   const [rowErrors, setRowErrors] = useState({});
-  // Track which rows have validation triggered by action (Add Row / Submit)
-  const [validatedRows, setValidatedRows] = useState({});
   const formRef = useRef(null);
 
   // Delete row handler
@@ -118,8 +116,6 @@ const EmployeeForm = () => {
     const missing = validateEmployeeRow(currentRow);
 
     if (Object.keys(missing).length > 0) {
-      // mark this row as validated so user sees inline messages
-      setValidatedRows((p) => ({ ...p, [index]: true }));
       toast.error(getErrorMessage('INCOMPLETE_ROW'), { id: ERROR_TOAST_ID, duration: 4000 });
       setRowErrors((prev) => ({ ...prev, [index]: missing }));
       return;
@@ -148,10 +144,6 @@ const EmployeeForm = () => {
     const allErrors = validateAllRows(rows);
 
     if (Object.keys(allErrors).length > 0) {
-      // mark rows that failed as validated so inline messages appear
-      const marked = {};
-      Object.keys(allErrors).forEach((k) => (marked[k] = true));
-      setValidatedRows((p) => ({ ...p, ...marked }));
       toast.error('Please complete all required employee details before saving.', {
         id: ERROR_TOAST_ID,
         duration: 4000,
@@ -161,7 +153,6 @@ const EmployeeForm = () => {
     }
 
     setRowErrors({});
-    setValidatedRows({});
   };
 
   // Clear validation messages when user clicks outside the form
@@ -170,7 +161,6 @@ const EmployeeForm = () => {
       if (!formRef.current) return;
       if (!formRef.current.contains(e.target)) {
         setRowErrors({});
-        setValidatedRows({});
       }
     };
 

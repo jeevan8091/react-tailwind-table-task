@@ -4,6 +4,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import Users from '../pages/Users/Users';
 import EmployeeForm from '../pages/EmployeeForm/EmployeeForm';
 import Profile from '../pages/Profile/Profile';
+import Projects from '../projects/Projects';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout/Layout';
 import { isAuthenticated } from '../utils/auth';
@@ -22,6 +23,7 @@ const AppRoutes = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/employee-form" element={<EmployeeForm />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/projects" element={<Projects />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

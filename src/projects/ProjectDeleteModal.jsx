@@ -1,4 +1,4 @@
-import DeleteConfirmationModal from './UserTable/DeleteConfirmationModal';
+import DeleteConfirmationModal from '../components/UserTable/DeleteConfirmationModal';
 
 const ProjectDeleteModal = ({ project, onClose, onConfirm }) => {
   if (!project) return null;

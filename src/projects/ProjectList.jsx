@@ -1,4 +1,5 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { FiEdit, FiTrash } from 'react-icons/fi';
 import SearchBar from '../components/UserTable/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -133,7 +134,8 @@ const ProjectList = () => {
                           title="Edit"
                           className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600 hover:bg-blue-100 hover:text-blue-700"
                         >
-                          ✏️
+                          <FiEdit />
+
                         </button>
                         <button
                           type="button"
@@ -141,7 +143,7 @@ const ProjectList = () => {
                           title="Delete"
                           className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-100 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700"
                         >
-                          🗑️
+                          <FiTrash />
                         </button>
                       </div>
                     </td>

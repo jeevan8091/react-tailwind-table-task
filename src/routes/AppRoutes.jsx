@@ -1,10 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Users from '../pages/Users/Users';
 import EmployeeForm from '../pages/EmployeeForm/EmployeeForm';
 import Profile from '../pages/Profile/Profile';
-import Projects from '../projects/Projects';
+import ProjectList from '../projects/ProjectList';
+import AddProject from '../projects/AddProject';
+import EditProject from '../projects/EditProject';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout/Layout';
 import { isAuthenticated } from '../redux/utils/auth';
@@ -15,7 +17,7 @@ const HomeRoute = () => {
 
 const AppRoutes = () => {
   return (
-    <Router>
+    
       <Routes>
         <Route path="/" element={<HomeRoute />} />
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
@@ -23,11 +25,13 @@ const AppRoutes = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/employee-form" element={<EmployeeForm />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={<ProjectList />} />
+          <Route path="/projects/add" element={<AddProject />} />
+          <Route path="/projects/edit/:id" element={<EditProject />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </Router>
+    
   );
 };
 

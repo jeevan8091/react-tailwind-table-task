@@ -37,7 +37,7 @@ const ProjectFormModal = ({ mode, project, onClose, onSubmit, isSubmitting }) =>
       shortCode: project?.shortCode ?? '',
       projectDate: project?.projectDate ?? '',
       status: project?.status ?? 'Planning',
-      description: project?.description ?? '',
+
     },
   });
 
@@ -150,19 +150,6 @@ const ProjectFormModal = ({ mode, project, onClose, onSubmit, isSubmitting }) =>
                   ))}
                 </select>
               </div>
-            </div>
-
-            {/* Description */}
-            <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-500">
-                Description
-              </label>
-              <textarea
-                rows={3}
-                placeholder="Brief summary of the project goals and deliverables..."
-                className={`${inputClass(false)} resize-none`}
-                {...register('description')}
-              />
             </div>
           </div>
 

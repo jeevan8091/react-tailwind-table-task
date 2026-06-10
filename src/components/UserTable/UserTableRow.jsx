@@ -1,5 +1,7 @@
 import { getAccent, getInitials } from './helpers';
 
+import { FiEdit, FiTrash } from 'react-icons/fi';
+
 const UserTableRow = ({ user, index, onEdit, onDelete, onViewDetails }) => {
   const accent = getAccent(user.id);
   const initials = getInitials(user.name || user.username || 'User');
@@ -72,7 +74,7 @@ const UserTableRow = ({ user, index, onEdit, onDelete, onViewDetails }) => {
             title="Edit"
             className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600 transition-colors duration-200 hover:bg-blue-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
           >
-            ✏️
+            <FiEdit />
           </button>
           <button
             type="button"
@@ -81,7 +83,7 @@ const UserTableRow = ({ user, index, onEdit, onDelete, onViewDetails }) => {
             title="Delete"
             className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-100 bg-red-50 text-red-600 transition-colors duration-200 hover:bg-red-100 hover:text-red-700 focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-offset-2"
           >
-            🗑️
+            <FiTrash />
           </button>
         </div>
       </td>

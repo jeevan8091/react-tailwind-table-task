@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from '../pages/Login/Login';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import Users from '../pages/Users/Users';
-import EmployeeForm from '../pages/EmployeeForm/EmployeeForm';
+import EmployeeWizard from '../pages/EmployeeForm/EmployeeWizard';
 import Profile from '../pages/Profile/Profile';
 import ProjectList from '../projects/ProjectList';
 import AddProject from '../projects/AddProject';
@@ -23,7 +23,7 @@ const AppRoutes = () => {
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
-          <Route path="/employee-form" element={<EmployeeForm />} />
+          <Route path="/employee-form" element={<EmployeeWizard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/projects" element={<ProjectList />} />
           <Route path="/projects/add" element={<AddProject />} />

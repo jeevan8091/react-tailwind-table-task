@@ -1,6 +1,7 @@
 // EmployeeWizard.jsx – Updated UI with professional stepper and progress bar
 import React, { useState } from 'react';
 import PersonalDetails from './PersonalDetails';
+import { toast } from 'react-hot-toast';
 import AddressDetails from './AddressDetails';
 import EmploymentDetails from './EmploymentDetails';
 import ReviewSubmit from './ReviewSubmit';
@@ -11,7 +12,7 @@ function EmployeeWizard() {
   const [step, setStep] = useState(1);
 
   // Centralised form data holding all wizard fields
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     name: '',
     email: '',
     phone: '',
@@ -23,7 +24,9 @@ function EmployeeWizard() {
     department: '',
     designation: '',
     salary: '',
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   // Validation errors for the currently visible step
   const [errors, setErrors] = useState({});
@@ -102,10 +105,22 @@ function EmployeeWizard() {
           />
         );
       case 4:
-        return <ReviewSubmit data={formData} onPrev={handlePrev} />;
+        return <ReviewSubmit data={formData} onPrev={handlePrev} onSubmit={handleFinalSubmit} />;
       default:
         return null;
     }
+  };
+
+  // Final submission handling
+  const handleFinalSubmit = () => {
+    console.log('Employee form submitted:', formData);
+    toast.success('Employee registration completed successfully.', {
+      duration: 4000,
+    });
+    // Reset form and wizard state
+    setFormData(initialFormData);
+    setStep(1);
+    setErrors({});
   };
 
   return <>{renderStep()}</>;

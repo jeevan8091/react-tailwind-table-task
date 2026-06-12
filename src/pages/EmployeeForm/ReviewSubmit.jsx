@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 /**
  * ReviewSubmit – final step of the employee wizard.
@@ -7,26 +7,13 @@ import React, { useState } from 'react';
  * data, shows a success message and (optionally) could be hooked into a real
  * API call.
  */
-function ReviewSubmit({ data, onPrev }) {
-  const [submitted, setSubmitted] = useState(false);
+function ReviewSubmit({ data, onPrev, onSubmit }) {
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Employee form submitted:', data);
-    setSubmitted(true);
-  };
 
-  if (submitted) {
-    return (
-      <div className="max-w-5xl mx-auto p-6 bg-white rounded-2xl shadow-2xl border border-slate-100">
-        <h2 className="text-2xl font-bold text-green-600 mb-4">Success!</h2>
-        <p className="text-gray-700">Your employee information has been submitted successfully.</p>
-      </div>
-    );
-  }
+
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white rounded-2xl shadow-2xl border border-slate-100 space-y-8">
+    <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 space-y-8 animate-in fade-in zoom-in duration-200">
       {/* Personal Details */}
       <section>
         <h2 className="text-xl font-semibold text-slate-800 border-b pb-2 mb-4">
@@ -75,8 +62,8 @@ function ReviewSubmit({ data, onPrev }) {
           ◀ Previous
         </button>
         <button
-          type="submit"
-          onClick={handleSubmit}
+          type="button"
+          onClick={onSubmit}
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Submit ▶

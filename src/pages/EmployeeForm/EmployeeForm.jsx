@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
 import EmployeeTable from './EmployeeTable';
+import PersonalDetails from './PersonalDetails';
 import SearchBar from '../../components/UserTable/SearchBar';
 import { useUsers } from '../../hooks/useUsers';
 import {
   validateEmployeeRow,
-  validateAllRows,
   getErrorMessage,
   convertRowToUser,
 } from './EmployeeValidation';
+import { validatePersonal } from './Validation';
 
 const ERROR_TOAST_ID = 'employee-validation-error';
 
@@ -24,14 +25,33 @@ const createEmployeeRow = (sNo) => ({
 
 const EmployeeForm = () => {
   const { saveEmployeeRecord } = useUsers();
-  
-  // Track field errors per row (e.g., {1: {name: 'Required'}})
+  const [step, setStep] = useState(1); // 1: Personal Details, 2: Employee Table form
   const [rowErrors, setRowErrors] = useState({});
+  const [wizardData, setWizardData] = useState({ name: '', email: '', phone: '', dob: '' });
+  const [formErrors, setFormErrors] = useState({});
   const [rows, setRows] = useState([createEmployeeRow(1)]);
   const [searchQuery, setSearchQuery] = useState('');
   const formRef = useRef(null);
 
-  // Delete row handler using sNo
+  const handlePersonalChange = (e) => {
+    const { name, value } = e.target;
+    setWizardData((prev) => ({ ...prev, [name]: value }));
+    if (formErrors[name]) {
+      setFormErrors((prev) => {
+        const { [name]: _, ...rest } = prev;
+        return rest;
+      });
+    }
+  };
+
+  const handleNext = () => {
+    const errors = validatePersonal(wizardData);
+    setFormErrors(errors);
+    if (Object.keys(errors).length === 0) {
+      setStep((prev) => Math.min(prev + 1, 4));
+    }
+  };
+
   const handleDeleteRow = (sNo) => {
     if (rows.length === 1) {
       toast.error(getErrorMessage('LAST_ROW'), { id: ERROR_TOAST_ID, duration: 4000 });
@@ -216,53 +236,54 @@ const EmployeeForm = () => {
 
   return (
     <div className="space-y-8">
-      <section>
-        <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">
-          Employee Form
-        </p>
-        <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
-          Employee Form
-        </h2>
-        <p className="mt-2 text-sm font-medium text-slate-500">
-          Fill in employee details for the current admin session.
-        </p>
-      </section>
+      {step === 1 ? (
+          <PersonalDetails formData={wizardData} handleChange={handlePersonalChange} errors={formErrors} onNext={handleNext} />
+      ) : (
+        <section>
+          <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">
+            Employee Form
+          </p>
+          <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
+            Employee Form
+          </h2>
+          <p className="mt-2 text-sm font-medium text-slate-500">
+            Fill in employee details for the current admin session.
+          </p>
 
-      <SearchBar
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        placeholder="Search by employee name, mobile number, profession..."
-        id="employee-search"
-      />
+          <SearchBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            placeholder="Search by employee name, mobile number, profession..."
+            id="employee-search"
+          />
 
-      <section>
-        <form ref={formRef} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" onSubmit={handleSubmit}>
-          {/* Header with Add Row (plus) icon */}
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-slate-800">Employee Details</h3>
-            <button type="button" className="flex items-center text-blue-600 hover:text-blue-800" onClick={() => handleAddRow(rows[rows.length - 1].sNo)}>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-              </svg>
-              Add Row
-            </button>
-          </div>
-          <EmployeeTable rows={filteredRows} onChange={handleChange} onAddRow={handleAddRow} onDeleteRow={handleDeleteRow} rowErrors={rowErrors} />
+          <section>
+            <form ref={formRef} className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" onSubmit={handleSubmit}>
+              {/* Header with Add Row (plus) icon */}
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-slate-800">Employee Details</h3>
+                <button type="button" className="flex items-center text-blue-600 hover:text-blue-800" onClick={() => handleAddRow(rows[rows.length - 1].sNo)}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                  </svg>
+                  Add Row
+                </button>
+              </div>
+              <EmployeeTable rows={filteredRows} onChange={handleChange} onAddRow={handleAddRow} onDeleteRow={handleDeleteRow} rowErrors={rowErrors} />
 
-          {/* Save Button */}
-          <div className="flex justify-end gap-4 mt-6">
-            <button
-              type="submit"
-              className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-sm"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.3A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z" />
-              </svg>
-              Save Employee Records
-            </button>
-          </div>
-        </form>
-      </section>
+              {/* Save Button */}
+              <div className="flex justify-end mt-4">
+                <button
+                  type="submit"
+                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                >
+                  Save Employee Records
+                </button>
+              </div>
+            </form>
+          </section>
+        </section>
+      )}
     </div>
   );
 };

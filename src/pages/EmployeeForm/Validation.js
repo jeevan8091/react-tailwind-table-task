@@ -1,5 +1,5 @@
 /**
- * Validation utilities for Employee Form steps.
+ * Validation utilities for Employee Form steps. 
  * Each function receives an object representing the form data for that step
  * and returns an object where keys are field names and values are error messages.
  * If a field passes validation it is omitted from the returned object.

@@ -22,7 +22,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
       {/* Page Header */}
       <header className="mb-6 text-center">
         <h1 className="text-4xl font-bold text-slate-900">Employee Registration</h1>
-        <p className="text-sm text-gray-600">Create and manage employee information through a structured registration process.</p>
+
       </header>
 
       {/* Step Indicator */}
@@ -35,7 +35,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
        {/* Card Container */}
         <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 animate-in fade-in zoom-in duration-200">
         <h2 className="text-3xl font-bold text-slate-800 mb-4">Personal Details</h2>
-        <p className="mb-6 text-gray-600">Enter the employee's personal information.</p>
+
 
         {/* Responsive Two‑Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -10,6 +10,7 @@ import EditProject from '../projects/EditProject';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Layout from '../components/Layout/Layout';
 import { isAuthenticated } from '../redux/utils/auth';
+import DynamicFormBuilder from '../pages/DynamicFormBuilder/DynamicFormBuilder';
 
 const HomeRoute = () => {
   return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Login />;
@@ -21,6 +22,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<HomeRoute />} />
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route path="/dynamic-form-builder" element={<DynamicFormBuilder />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/users" element={<Users />} />
           <Route path="/employee-form" element={<EmployeeWizard />} />

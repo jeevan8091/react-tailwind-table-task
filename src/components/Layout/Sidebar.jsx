@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { FiLayout } from 'react-icons/fi';
 
 const navItems = [
   {
@@ -27,6 +28,11 @@ const navItems = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
       </svg>
     ),
+  },
+  {
+    label: 'Form Designer',
+    path: '/dynamic-form-builder',
+    icon: <FiLayout className="h-5 w-5" />,    
   },
   {
     label: 'Projects',

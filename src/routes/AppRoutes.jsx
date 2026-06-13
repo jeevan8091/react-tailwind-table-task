@@ -13,6 +13,7 @@ import RoleProtectedRoute from '../components/RoleProtectedRoute';
 import Layout from '../components/Layout/Layout';
 import { isAuthenticated } from '../redux/utils/auth';
 import DynamicFormBuilder from '../pages/DynamicFormBuilder/DynamicFormBuilder';
+import InvoiceBuilder from '../pages/InvoiceBuilder/InvoiceBuilder';
 import Unauthorized from '../pages/Unauthorized/Unauthorized';
 
 const HomeRoute = () => {
@@ -34,6 +35,7 @@ const AppRoutes = () => {
         <Route path="/projects" element={<ProjectList />} />
         <Route path="/projects/add" element={<AddProject />} />
         <Route path="/projects/edit/:id" element={<EditProject />} />
+        <Route path="/invoice-builder" element={<InvoiceBuilder />} />
       </Route>
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<Navigate to="/" replace />} />

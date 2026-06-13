@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { FiLayout, FiUsers, FiBarChart2, FiSettings } from 'react-icons/fi';
+import { FiLayout, FiUsers, FiBarChart2, FiSettings, FiFileText } from 'react-icons/fi';
 
 
 const navItems = [
@@ -43,7 +43,12 @@ const navItems = [
         <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
       </svg>
     ),
-  }
+  },
+  {
+    label: 'Invoice Builder',
+    path: '/invoice-builder',
+    icon: <FiFileText className="h-5 w-5" />,    
+  },
 ];
 
 // Role‑based menu configuration (static)
@@ -56,8 +61,9 @@ const menuConfig = {
     'Projects',
     'Reports',
     'Settings',
+    'Invoice Builder',
   ],
-  manager: ['Dashboard', 'Projects', 'Reports'],
+  manager: ['Dashboard', 'Projects', 'Reports', 'Invoice Builder'],
   employee: ['Dashboard', 'Profile'],
 };
 

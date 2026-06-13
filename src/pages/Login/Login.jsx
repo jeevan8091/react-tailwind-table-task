@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { login } from '../../redux/utils/auth';
-
+import { FiUsers } from 'react-icons/fi';
 const ERROR_TOAST_ID = 'login-error';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState('Admin');
   const {
     register,
     handleSubmit,
@@ -22,6 +23,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = ({ username, password }) => {
+    // Store selected role
+    localStorage.setItem('role', role);
+
     const isLoggedIn = login({ username, password });
 
     if (!isLoggedIn) {
@@ -174,6 +178,27 @@ const Login = () => {
               {errors.password && (
                 <p className="mt-2 text-xs font-semibold text-red-600">{errors.password.message}</p>
               )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="role" className="text-[13px] font-semibold tracking-[0.01em] text-slate-700">
+                Access Role
+              </label>
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                  <FiUsers className="text-slate-400" />
+                </div>
+                <select
+                  id="role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="h-12 w-full rounded-xl border border-slate-300 bg-white px-4 pl-10 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                >
+                  <option value="Admin">Admin</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Employee">Employee</option>
+                </select>
+              </div>
             </div>
 
             <div className="flex items-center justify-between gap-4 text-sm">

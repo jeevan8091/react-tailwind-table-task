@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { FiLayout } from 'react-icons/fi';
+import { FiLayout, FiUsers, FiBarChart2, FiSettings } from 'react-icons/fi';
+
 
 const navItems = [
   {
@@ -45,6 +46,21 @@ const navItems = [
   }
 ];
 
+// Role‑based menu configuration (static)
+const menuConfig = {
+  admin: [
+    'Dashboard',
+    'Users',
+    'Employee Form',
+    'Form Designer',
+    'Projects',
+    'Reports',
+    'Settings',
+  ],
+  manager: ['Dashboard', 'Projects', 'Reports'],
+  employee: ['Dashboard', 'Profile'],
+};
+
 const Sidebar = ({ isOpen, onClose }) => {
   const linkClassName = ({ isActive }) =>
     [
@@ -53,6 +69,11 @@ const Sidebar = ({ isOpen, onClose }) => {
         ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
         : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
     ].join(' ');
+
+  // Role‑based filtering computed on each render
+  const role = localStorage.getItem('role')?.toLowerCase();
+  const allowedMenus = menuConfig[role] || [];
+  const filteredNavItems = navItems.filter((item) => allowedMenus.includes(item.label));
 
   return (
     <aside
@@ -93,7 +114,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         </div>
 
         <nav className="flex flex-1 flex-col gap-1.5 py-4 px-2.5" aria-label="Main navigation">
-          {navItems.map((item) => (
+          {filteredNavItems.map((item) => (
             <NavLink key={item.path} to={item.path} className={linkClassName} aria-label={item.label}>
               <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center">{item.icon}</span>
               <span className={`transition-opacity transition-transform duration-300 ease-in-out will-change-transform ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>

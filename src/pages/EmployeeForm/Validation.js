@@ -1,13 +1,9 @@
 /**
- * Validation utilities for Employee Form steps. 
- * Each function receives an object representing the form data for that step
- * and returns an object where keys are field names and values are error messages.
- * If a field passes validation it is omitted from the returned object.
+ * Handles validation for Employee Registration Wizard forms.
  */
 
 /**
- * Validate personal details.
- * Expected fields: name, email, phone, dob
+ * Validates employee personal information.
  */
 export const validatePersonal = (data) => {
   const errors = {};

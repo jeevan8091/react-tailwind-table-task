@@ -1,4 +1,4 @@
-// EmployeeWizard.jsx – Updated UI with professional stepper and progress bar
+
 import React, { useState } from 'react';
 import PersonalDetails from './PersonalDetails';
 import { toast } from 'react-hot-toast';
@@ -31,7 +31,7 @@ function EmployeeWizard() {
   // Validation errors for the currently visible step
   const [errors, setErrors] = useState({});
 
-  /** Generic change handler for input fields */
+  /* Generic change handler for input fields */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

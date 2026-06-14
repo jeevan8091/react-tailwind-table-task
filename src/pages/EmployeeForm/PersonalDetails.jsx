@@ -1,4 +1,3 @@
-// PersonalDetails.jsx – Updated UI/UX for Step 1
 
 // InfoBox import removed for unified design
 import React, { useState } from 'react';
@@ -32,8 +31,8 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
 
 
 
-       {/* Card Container */}
-        <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 animate-in fade-in zoom-in duration-200">
+      {/* Card Container */}
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 animate-in fade-in zoom-in duration-200">
         <h2 className="text-3xl font-bold text-slate-800 mb-4">Personal Details</h2>
 
 
@@ -53,7 +52,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.name || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${ shouldShowError('name') ? 'border-red-500' : ''}`} placeholder="Enter full name"
+                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('name') ? 'border-red-500' : ''}`} placeholder="Enter full name"
               />
             </div>
             {shouldShowError('name') && (
@@ -75,7 +74,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.email || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${ shouldShowError('email') ? 'border-red-500' : ''}`} placeholder="Enter email address"
+                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('email') ? 'border-red-500' : ''}`} placeholder="Enter email address"
               />
             </div>
             {shouldShowError('email') && (
@@ -98,7 +97,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.phone || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${ shouldShowError('phone') ? 'border-red-500' : ''}`} placeholder="Enter 10-digit phone number"
+                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('phone') ? 'border-red-500' : ''}`} placeholder="Enter 10-digit phone number"
               />
             </div>
             {shouldShowError('phone') && (
@@ -120,7 +119,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.dob || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${ shouldShowError('dob') ? 'border-red-500' : ''}`} placeholder="Select date of birth"
+                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('dob') ? 'border-red-500' : ''}`} placeholder="Select date of birth"
               />
             </div>
             {shouldShowError('dob') && (

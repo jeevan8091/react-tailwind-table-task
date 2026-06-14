@@ -2,8 +2,7 @@ import React from 'react';
 import { FiMapPin } from 'react-icons/fi';
 
 /**
- * AddressDetails – Step 2 of the Employee Registration Wizard.
- * Renders a form for address information and navigation buttons.
+ * AddressDetails – Collects employee address details in the registration wizard.
  */
 function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
   return (

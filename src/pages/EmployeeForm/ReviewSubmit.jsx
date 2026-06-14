@@ -1,11 +1,7 @@
 import React from 'react';
 
 /**
- * ReviewSubmit – final step of the employee wizard.
- * Shows a read‑only summary of all entered values, grouped into three sections.
- * Provides a "Previous" button to go back and a "Submit" button that logs the
- * data, shows a success message and (optionally) could be hooked into a real
- * API call.
+ * ReviewSubmit – Displays a summary of entered employee details and handles final submission.
  */
 function ReviewSubmit({ data, onPrev, onSubmit }) {
 

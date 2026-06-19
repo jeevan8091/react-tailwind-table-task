@@ -1,5 +1,4 @@
 
-// InfoBox import removed for unified design
 import React, { useState } from 'react';
 import { FiUser, FiMail, FiPhone, FiCalendar } from 'react-icons/fi';
 

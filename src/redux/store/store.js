@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import projectReducer from '../reducer/projectReducer';
+import authReducer from '../reducer/authReducer';
 import { loadState, saveState } from '../localStorage';
 
 // Load persisted state from localStorage if available
@@ -9,6 +10,7 @@ const persistedState = loadState();
 const store = configureStore({
   reducer: {
     project: projectReducer,
+    auth: authReducer,
   },
   // Preloaded state ensures Redux initializes with persisted data
   preloadedState: persistedState,

@@ -11,13 +11,21 @@ import Reports from '../pages/Reports/Reports';
 import Settings from '../pages/Settings/Settings';
 import RoleProtectedRoute from '../components/RoleProtectedRoute';
 import Layout from '../components/Layout/Layout';
-import { isAuthenticated } from '../redux/utils/auth';
+import { useSelector } from 'react-redux';
 import DynamicFormBuilder from '../pages/DynamicFormBuilder/DynamicFormBuilder';
 import InvoiceBuilder from '../pages/InvoiceBuilder/InvoiceBuilder';
 import Unauthorized from '../pages/Unauthorized/Unauthorized';
 
 const HomeRoute = () => {
-  return isAuthenticated() ? <Navigate to="/dashboard" replace /> : <Login />;
+  const { isAuthenticated, token, loading } = useSelector(state => state.auth);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
+      </div>
+    );
+  }
+  return isAuthenticated && token ? <Navigate to="/dashboard" replace /> : <Login />;
 };
 
 const AppRoutes = () => {

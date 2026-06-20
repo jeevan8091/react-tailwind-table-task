@@ -1,8 +1,27 @@
 import { Toaster } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { initializeAuth } from './redux/thunk/authThunk';
 import AppRoutes from './routes/AppRoutes';
 
 function App() {
+  const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    dispatch(initializeAuth());
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500" />
+      </div>
+    );
+  }
+
   return (
+
     <>
       <AppRoutes />
       <Toaster

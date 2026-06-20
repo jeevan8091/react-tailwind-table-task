@@ -1,13 +1,8 @@
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { updateAdminProfile } from '../../../redux/utils/auth';
 
-const ProfileForm = ({ profile, updateAdminProfileState }) => {
-  const [profileMsg, setProfileMsg] = useState('');
-
+const ProfileForm = ({ profile }) => {
   const {
     register,
-    handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -18,14 +13,6 @@ const ProfileForm = ({ profile, updateAdminProfileState }) => {
     },
   });
 
-  const onProfileSave = (data) => {
-    const updatedProfile = { ...profile, ...data };
-    updateAdminProfile(updatedProfile);
-    updateAdminProfileState(updatedProfile);
-    setProfileMsg('Profile information updated successfully.');
-    setTimeout(() => setProfileMsg(''), 3500);
-  };
-
   return (
     <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
       <h3 className="text-[20px] font-semibold text-slate-800">Profile Information</h3>
@@ -33,13 +20,11 @@ const ProfileForm = ({ profile, updateAdminProfileState }) => {
         Update your administrator details.
       </p>
 
-      {profileMsg && (
-        <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700">
-          {profileMsg}
-        </div>
-      )}
+      <div className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700">
+        Profile update functionality is currently unavailable.
+      </div>
 
-      <form onSubmit={handleSubmit(onProfileSave)} className="mt-6 space-y-5">
+      <form onSubmit={(event) => event.preventDefault()} className="mt-6 space-y-5">
         <div className="grid gap-5 md:grid-cols-2">
           <div>
             <label htmlFor="profile-first-name" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
@@ -103,6 +88,7 @@ const ProfileForm = ({ profile, updateAdminProfileState }) => {
         <div className="flex justify-end">
           <button
             type="submit"
+            disabled
             className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200"
           >
             Save Changes

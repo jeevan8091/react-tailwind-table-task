@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { useUsers } from '../../hooks/useUsers';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteUser, fetchUsers, updateUser } from '../../redux/thunk/userThunk';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EditUserModal from './EditUserModal';
 import SearchBar from './SearchBar';
@@ -7,20 +8,49 @@ import UserDetailsModal from './UserDetailsModal';
 import UserTableHeader from './UserTableHeader';
 import UserTableRow from './UserTableRow';
 
+const getSearchText = (user) =>
+  [
+    user.name,
+    user.username,
+    user.email,
+    user.company?.name,
+    user.address?.city,
+    user.address?.street,
+    user.phone,
+    user.website,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
 const Table = () => {
+  const dispatch = useDispatch();
+  const { users, loading, error } = useSelector((state) => state.users);
   const [searchQuery, setSearchQuery] = useState('');
   const [editingUser, setEditingUser] = useState(null);
   const [deletingUser, setDeletingUser] = useState(null);
   const [detailsUser, setDetailsUser] = useState(null);
-  const { filteredUsers, loading, error, updateUser, deleteUser } = useUsers(searchQuery);
+
+  useEffect(() => {
+    if (!users.length && !loading) {
+      dispatch(fetchUsers());
+    }
+  }, [dispatch, loading, users.length]);
+
+  const filteredUsers = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+    if (!query) return users;
+
+    return users.filter((user) => getSearchText(user).includes(query));
+  }, [searchQuery, users]);
 
   const handleSaveUser = (updatedUser) => {
-    updateUser(updatedUser);
+    dispatch(updateUser(updatedUser));
     setEditingUser(null);
   };
 
   const handleDeleteUser = (userId) => {
-    deleteUser(userId);
+    dispatch(deleteUser(userId));
     setDeletingUser(null);
   };
 

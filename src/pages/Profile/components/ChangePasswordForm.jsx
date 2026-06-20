@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { checkAdminPassword, updateAdminPassword } from '../../../redux/utils/auth';
 import { getPasswordStrength } from '../utils/PasswordStrength';
 
 const EyeIcon = ({ open }) => (
@@ -32,7 +31,6 @@ const ChangePasswordForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     defaultValues: {
       currentPassword: '',
@@ -43,11 +41,6 @@ const ChangePasswordForm = () => {
 
   const onPasswordSave = (data) => {
     setPasswordMsg({ type: '', text: '' });
-
-    if (!checkAdminPassword(data.currentPassword)) {
-      setPasswordMsg({ type: 'error', text: 'Current password is incorrect.' });
-      return;
-    }
 
     if (data.newPassword !== data.confirmPassword) {
       setPasswordMsg({ type: 'error', text: 'Passwords do not match.' });
@@ -63,16 +56,7 @@ const ChangePasswordForm = () => {
       return;
     }
 
-    updateAdminPassword(data.newPassword);
-    reset();
-    setPasswordValues({ newPassword: '', confirmPassword: '' });
-    setShowPasswords({
-      currentPassword: false,
-      newPassword: false,
-      confirmPassword: false,
-    });
-    setPasswordMsg({ type: 'success', text: 'Password updated successfully.' });
-    setTimeout(() => setPasswordMsg({ type: '', text: '' }), 3500);
+    setPasswordMsg({ type: 'error', text: 'Password update functionality is currently unavailable.' });
   };
 
   const newPasswordValue = passwordValues.newPassword;

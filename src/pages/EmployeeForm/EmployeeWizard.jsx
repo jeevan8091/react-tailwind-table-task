@@ -2,12 +2,15 @@
 import React, { useState } from 'react';
 import PersonalDetails from './PersonalDetails';
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../redux/thunk/userThunk';
 import AddressDetails from './AddressDetails';
 import EmploymentDetails from './EmploymentDetails';
 import ReviewSubmit from './ReviewSubmit';
 import { validatePersonal, validateAddress, validateEmployment } from './Validation';
 
 function EmployeeWizard() {
+  const dispatch = useDispatch();
   // Step numbers: 1‑Personal, 2‑Address, 3‑Employment, 4‑Review & Submit
   const [step, setStep] = useState(1);
 
@@ -112,15 +115,19 @@ function EmployeeWizard() {
   };
 
   // Final submission handling
-  const handleFinalSubmit = () => {
-    console.log('Employee form submitted:', formData);
-    toast.success('Employee registration completed successfully.', {
-      duration: 4000,
-    });
-    // Reset form and wizard state
-    setFormData(initialFormData);
-    setStep(1);
-    setErrors({});
+  const handleFinalSubmit = async () => {
+    try {
+      await dispatch(addUser(formData)).unwrap();
+      toast.success('Employee registration completed successfully.', {
+        duration: 4000,
+      });
+      // Reset form and wizard state
+      setFormData(initialFormData);
+      setStep(1);
+      setErrors({});
+    } catch (error) {
+      toast.error(error || 'Unable to save employee record.');
+    }
   };
 
   return <>{renderStep()}</>;

@@ -5,7 +5,7 @@ const authService = {
     try {
       return await authApi.login(credentials);
     } catch (error) {
-      throw new Error(error.message || 'Error occurred during login service call');
+      throw new Error(error.message || 'Error occurred during login service call', { cause: error });
     }
   },
 
@@ -13,7 +13,7 @@ const authService = {
     try {
       return await authApi.getAdminInfo(token);
     } catch (error) {
-      throw new Error(error.message || 'Error occurred during fetch admin info service call');
+      throw new Error(error.message || 'Error occurred during fetch admin info service call', { cause: error });
     }
   },
 };

@@ -1,4 +1,18 @@
-const BASE_URL = 'https://mm360.makingmindstechnologies.com/api/auth';
+const BASE_URL = '/api/auth';
+
+const getErrorMessage = async (response, fallback) => {
+  try {
+    const errorData = await response.json();
+    return errorData.detail || errorData.message || errorData.error || JSON.stringify(errorData) || fallback;
+  } catch {
+    try {
+      const text = await response.text();
+      return text || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+};
 
 const authApi = {
   login: async (credentials) => {
@@ -11,18 +25,7 @@ const authApi = {
     });
 
     if (!response.ok) {
-      let errorMessage = 'Login failed';
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.detail || errorData.message || JSON.stringify(errorData) || errorMessage;
-      } catch (e) {
-        // Fallback if response is not JSON
-        try {
-          const text = await response.text();
-          errorMessage = text || errorMessage;
-        } catch (_) {}
-      }
-      throw new Error(errorMessage);
+      throw new Error(await getErrorMessage(response, 'Login failed'));
     }
 
     return await response.json();
@@ -38,17 +41,7 @@ const authApi = {
     });
 
     if (!response.ok) {
-      let errorMessage = 'Failed to fetch admin info';
-      try {
-        const errorData = await response.json();
-        errorMessage = errorData.detail || errorData.message || JSON.stringify(errorData) || errorMessage;
-      } catch (e) {
-        try {
-          const text = await response.text();
-          errorMessage = text || errorMessage;
-        } catch (_) {}
-      }
-      throw new Error(errorMessage);
+      throw new Error(await getErrorMessage(response, 'Failed to fetch admin info'));
     }
 
     return await response.json();

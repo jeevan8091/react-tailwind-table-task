@@ -1,14 +1,15 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { isAuthenticated } from '../redux/utils/auth';
+import { useSelector } from 'react-redux';
 import { permissions } from "../config/rolePermissions";
 
 const RoleProtectedRoute = ({ children }) => {
   const location = useLocation();
-  // Authentication check
-  if (!isAuthenticated()) {
+  // Authentication check using Redux state
+  const { isAuthenticated, token, user } = useSelector(state => state.auth);
+  if (!isAuthenticated || !token) {
     return <Navigate to="/" replace />;
   }
-  const role = (localStorage.getItem('role') || '').toLowerCase();
+  const role = (user?.role || localStorage.getItem('role') || '').toLowerCase();
   const allowed = permissions[role] || [];
   // If the current path is not permitted for the role, redirect
   if (!allowed.includes(location.pathname)) {

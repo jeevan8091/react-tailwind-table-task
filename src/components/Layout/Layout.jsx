@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { UserProvider } from '../../context/UserContext';
 import Header from './Header';
 import Sidebar from './Sidebar';
 
@@ -24,8 +23,7 @@ const Layout = () => {
   const toggleSidebar = () => setIsSidebarOpen((current) => !current);
 
   return (
-    <UserProvider>
-      <div className="flex min-h-screen bg-[#F8FAFC] text-slate-800">
+    <div className="flex min-h-screen bg-[#F8FAFC] text-slate-800">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
         {/* Sidebar backdrop (visual only — no click-to-close) */}
@@ -42,8 +40,7 @@ const Layout = () => {
             <Outlet />
           </main>
         </div>
-      </div>
-    </UserProvider>
+    </div>
   );
 };
 

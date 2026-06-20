@@ -1,5 +1,6 @@
-import { useMemo } from 'react';
-import { useUserContext } from '../context/useUserContext';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../redux/thunk/userThunk';
 
 const getSearchText = (user) =>
   [
@@ -17,7 +18,14 @@ const getSearchText = (user) =>
     .toLowerCase();
 
 export const useUsers = (searchQuery = '') => {
-  const { users, employeeRecords, loading, error, saveEmployeeRecord, updateUser, deleteUser } = useUserContext();
+  const dispatch = useDispatch();
+  const { users, loading, error } = useSelector((state) => state.users);
+
+  useEffect(() => {
+    if (!users.length && !loading) {
+      dispatch(fetchUsers());
+    }
+  }, [dispatch, loading, users.length]);
 
   const filteredUsers = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -26,14 +34,10 @@ export const useUsers = (searchQuery = '') => {
     return users.filter((user) => getSearchText(user).includes(query));
   }, [users, searchQuery]);
 
-  return {
-    users,
-    employeeRecords,
-    filteredUsers,
-    loading,
-    error,
-    saveEmployeeRecord,
-    updateUser,
-    deleteUser,
-  };
+  const employeeRecords = useMemo(
+    () => users.filter((user) => user.isLocal),
+    [users],
+  );
+
+  return { users, employeeRecords, filteredUsers, loading, error };
 };

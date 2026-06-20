@@ -1,16 +1,16 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContextValue';
-import { logout, getAdminProfile } from '../../redux/utils/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../../redux/thunk/authThunk';
 
 const Header = ({ onMenuClick }) => {
-  const { adminProfile } = useContext(UserContext);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { user } = useSelector(state => state.auth);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
-  const profile = adminProfile || getAdminProfile();
-  const fullName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || 'Admin';
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const profile = user || {};
+  const fullName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || profile.name || 'Admin';
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -25,7 +25,7 @@ const Header = ({ onMenuClick }) => {
 
   const handleSignOut = () => {
     setIsDropdownOpen(false);
-    logout();
+    dispatch(logoutUser());
     navigate('/', { replace: true });
   };
 
@@ -64,7 +64,7 @@ const Header = ({ onMenuClick }) => {
           >
             {/* User Initial Badge */}
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-xs font-black text-white shadow-sm">
-              {(profile.firstName?.[0] || 'A').toUpperCase()}
+              {(profile.firstName?.[0] || profile.name?.[0] || 'A').toUpperCase()}
             </span>
             <span className="hidden sm:block max-w-[120px] truncate">{fullName}</span>
             <svg
@@ -86,7 +86,7 @@ const Header = ({ onMenuClick }) => {
               <div className="px-4 py-3.5 border-b border-slate-100">
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-black text-white flex-shrink-0">
-                    {(profile.firstName?.[0] || 'A').toUpperCase()}
+                    {(profile.firstName?.[0] || profile.name?.[0] || 'A').toUpperCase()}
                   </span>
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-slate-800 truncate">{fullName}</p>

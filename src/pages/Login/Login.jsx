@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { login } from '../../redux/utils/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../redux/thunk/authThunk';
 import { FiUsers } from 'react-icons/fi';
 const ERROR_TOAST_ID = 'login-error';
 
@@ -21,25 +22,25 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
 
-  const onSubmit = ({ username, password }) => {
+  const onSubmit = async ({ username, password }) => {
     // Store selected role
     localStorage.setItem('role', role);
 
-    const isLoggedIn = login({ username, password });
-
-    if (!isLoggedIn) {
-      toast.error('Invalid username or password.', {
+    try {
+      await dispatch(loginUser({ username, password })).unwrap();
+      toast.success('Welcome back! Login successful.', {
+        duration: 3000,
+      });
+      navigate('/dashboard', { replace: true });
+    } catch (err) {
+      toast.error(err || 'Invalid username or password.', {
         id: ERROR_TOAST_ID,
         duration: 4000,
       });
-      return;
     }
-
-    toast.success('Welcome back! Login successful.', {
-      duration: 3000,
-    });
-    navigate('/dashboard', { replace: true });
   };
 
   return (
@@ -220,9 +221,10 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+              disabled={loading}
+              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:opacity-50"
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
         </div>

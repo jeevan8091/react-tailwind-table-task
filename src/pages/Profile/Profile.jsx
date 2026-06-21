@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import { fetchAdminInfo } from '../../redux/thunk/authThunk';
@@ -12,6 +12,7 @@ import { TABS, LOGIN_HISTORY, RECENT_ACTIONS } from './utils/profileConstants';
 const Profile = () => {
   const dispatch = useDispatch();
   const { user, loading, error } = useSelector((state) => state.auth);
+  const [activeTab, setActiveTab] = useState('profile');
 
   // Defensive profile object
   const profile = user || {};
@@ -69,15 +70,15 @@ const Profile = () => {
         </div>
       </section>
 
-      <ProfileTabs activeTab={profile.activeTab ?? 'profile'} onTabChange={() => {}} tabs={TABS} />
+      <ProfileTabs activeTab={activeTab} onTabChange={setActiveTab} tabs={TABS} />
 
-      {profile.activeTab === 'profile' && (
+      {activeTab === 'profile' && (
         <ProfileForm profile={profile} />
       )}
 
-      {profile.activeTab === 'password' && <ChangePasswordForm />}
+      {activeTab === 'password' && <ChangePasswordForm />}
 
-      {profile.activeTab === 'activity' && (
+      {activeTab === 'activity' && (
         <div className="space-y-6">
           <LoginHistory loginHistory={LOGIN_HISTORY} />
           <RecentActivity recentActions={RECENT_ACTIONS} sessionDetails={sessionDetails} />

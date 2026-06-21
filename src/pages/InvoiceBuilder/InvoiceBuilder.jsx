@@ -209,12 +209,23 @@ const InvoiceBuilder = () => {
             <p className="text-sm font-normal text-slate-500">
               Review invoice totals before generating the invoice.
             </p>
-            <button
-              className="mt-4 inline-flex items-center rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none transition-all duration-200"
-              onClick={handleGenerateInvoice}
-            >
-              Generate Invoice
-            </button>
+            <div className="flex flex-wrap gap-3 mt-4">
+              <button
+                className="inline-flex items-center rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none transition-all duration-200"
+                onClick={handleGenerateInvoice}
+              >
+                Generate Invoice
+              </button>
+              {showPreview && (
+                <button
+                  type="button"
+                  className="inline-flex items-center rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none transition-all duration-200"
+                  onClick={() => window.print()}
+                >
+                  Print Invoice
+                </button>
+              )}
+            </div>
           </div>
           <div className="w-full md:w-64 space-y-1.5 text-sm border-t md:border-t-0 pt-3 md:pt-0 border-slate-200">
             <div className="flex justify-between">
@@ -233,47 +244,48 @@ const InvoiceBuilder = () => {
         </div>
       </section>
     {showPreview && (
-      <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 mt-6">
+      <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 mt-6 print-container">
         {/* Compact Header */}
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold text-slate-800">INVOICE PREVIEW</h3>
-          <p className="text-sm text-slate-600">Generated invoice summary and totals.</p>
-        </div>
-
-        {/* Customer Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-slate-600 border-b border-slate-100 pb-3 mb-4">
+        <div className="mb-6 flex justify-between items-start border-b border-slate-100 pb-4">
           <div>
-            <span className="font-semibold text-slate-700">Customer Name:</span> {customerName || 'N/A'}
+            <h2 className="text-xl font-bold text-slate-800 tracking-tight">INVOICE</h2>
+            <p className="text-xs font-semibold text-blue-600 mt-0.5">Workforce Hub</p>
           </div>
-          <div className="md:text-right space-y-1">
-            <div>
-              <span className="font-semibold text-slate-700">Invoice Date:</span> {invoiceDate || 'N/A'}
-            </div>
+          <div className="text-right space-y-1 text-sm text-slate-600">
             <div>
               <span className="font-semibold text-slate-700">Invoice Number:</span> {invoiceNumber}
             </div>
+            <div>
+              <span className="font-semibold text-slate-700">Invoice Date:</span> {invoiceDate || 'N/A'}
+            </div>
           </div>
         </div>
 
+        {/* Customer Details */}
+        <div className="mb-6 text-sm text-slate-600 bg-slate-50/50 rounded-xl p-4 border border-slate-100">
+          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Billed To</p>
+          <div className="font-semibold text-slate-800 text-base">{customerName || 'N/A'}</div>
+        </div>
+
         {/* Items Table */}
-        <div className="mb-4">
+        <div className="mb-6">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse text-sm">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-200">
-                  <th className="px-4 py-2 text-left font-semibold text-slate-700">Item Name</th>
-                  <th className="px-4 py-2 text-right font-semibold text-slate-700 w-24">Quantity</th>
-                  <th className="px-4 py-2 text-right font-semibold text-slate-700 w-32">Rate</th>
-                  <th className="px-4 py-2 text-right font-semibold text-slate-700 w-36">Amount</th>
+                <tr className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <th className="px-4 py-3 text-left font-semibold text-slate-700">Item Name</th>
+                  <th className="px-4 py-3 text-right font-semibold text-slate-700 w-24">Quantity</th>
+                  <th className="px-4 py-3 text-right font-semibold text-slate-700 w-32">Rate</th>
+                  <th className="px-4 py-3 text-right font-semibold text-slate-700 w-36">Amount</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {items.map(item => (
                   <tr key={item.id} className="hover:bg-slate-50/50">
-                    <td className="px-4 py-2 text-left text-slate-800 font-medium">{item.itemName || 'N/A'}</td>
-                    <td className="px-4 py-2 text-right text-slate-600">{item.quantity || 0}</td>
-                    <td className="px-4 py-2 text-right text-slate-600">₹{Number(item.rate || 0).toFixed(2)}</td>
-                    <td className="px-4 py-2 text-right text-slate-800 font-semibold">₹{item.amount.toFixed(2)}</td>
+                    <td className="px-4 py-3 text-left text-slate-800 font-medium">{item.itemName || 'N/A'}</td>
+                    <td className="px-4 py-3 text-right text-slate-600 font-medium">{item.quantity || 0}</td>
+                    <td className="px-4 py-3 text-right text-slate-600 font-medium">₹{Number(item.rate || 0).toFixed(2)}</td>
+                    <td className="px-4 py-3 text-right text-slate-800 font-semibold">₹{item.amount.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -282,8 +294,8 @@ const InvoiceBuilder = () => {
         </div>
 
         {/* Summary Section */}
-        <div className="flex justify-end pt-3 border-t border-slate-100">
-          <div className="w-64 space-y-1.5 text-sm">
+        <div className="flex justify-end pt-4 border-t border-slate-100">
+          <div className="w-64 space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-slate-500 font-medium">Subtotal</span>
               <span className="font-semibold text-slate-800">₹{subtotal.toFixed(2)}</span>
@@ -292,7 +304,7 @@ const InvoiceBuilder = () => {
               <span className="text-slate-500 font-medium">GST (3%)</span>
               <span className="font-semibold text-slate-800">₹{gst.toFixed(2)}</span>
             </div>
-            <div className="border-t border-slate-200 pt-1.5 flex justify-between font-bold text-slate-900">
+            <div className="border-t border-slate-200 pt-2 flex justify-between font-bold text-slate-900 text-base">
               <span>Grand Total</span>
               <span>₹{grandTotal.toFixed(2)}</span>
             </div>

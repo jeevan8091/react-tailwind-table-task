@@ -6,10 +6,14 @@ const ProfileForm = ({ profile }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: profile.firstName,
-      lastName: profile.lastName,
-      employeeCode: profile.employeeCode,
-      email: profile.email,
+      firstName: profile.firstName || '',
+      lastName: profile.lastName || '',
+      employeeCode: profile.employeeCode || '',
+      email: profile.email || '',
+      username: profile.username || 'admin',
+      role: profile.role || 'Administrator',
+      phone: profile.phone || '',
+      lastLogin: profile.lastLogin || '',
     },
   });
 
@@ -53,16 +57,16 @@ const ProfileForm = ({ profile }) => {
           </div>
 
           <div>
-            <label htmlFor="profile-employee-code" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
-              Employee Code
+            <label htmlFor="profile-username" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
+              Username
             </label>
             <input
-              id="profile-employee-code"
+              id="profile-username"
               type="text"
-              {...register('employeeCode', { required: 'Employee code is required' })}
+              {...register('username', { required: 'Username is required' })}
               className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 transition-all duration-200 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
-            {errors.employeeCode && <p className="mt-2 text-xs font-semibold text-red-600">{errors.employeeCode.message}</p>}
+            {errors.username && <p className="mt-2 text-xs font-semibold text-red-600">{errors.username.message}</p>}
           </div>
 
           <div>
@@ -82,6 +86,57 @@ const ProfileForm = ({ profile }) => {
               className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 transition-all duration-200 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
             />
             {errors.email && <p className="mt-2 text-xs font-semibold text-red-600">{errors.email.message}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="profile-role" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
+              Role
+            </label>
+            <input
+              id="profile-role"
+              type="text"
+              {...register('role')}
+              readOnly
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-[15px] font-medium text-slate-500 cursor-not-allowed outline-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="profile-phone" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
+              Phone
+            </label>
+            <input
+              id="profile-phone"
+              type="text"
+              {...register('phone')}
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 transition-all duration-200 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="profile-employee-code" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
+              Employee Code
+            </label>
+            <input
+              id="profile-employee-code"
+              type="text"
+              {...register('employeeCode')}
+              readOnly
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-[15px] font-medium text-slate-500 cursor-not-allowed outline-none"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="profile-last-login" className="text-[13px] font-semibold tracking-[0.04em] text-slate-500">
+              Last Login
+            </label>
+            <input
+              id="profile-last-login"
+              type="text"
+              {...register('lastLogin')}
+              readOnly
+              className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-100 px-4 py-3 text-[15px] font-medium text-slate-500 cursor-not-allowed outline-none"
+            />
           </div>
         </div>
 

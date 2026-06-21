@@ -41,5 +41,58 @@
   }
 }
 
+@media print {
+  /* Hide non-printable components using the dedicated class */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Reset main layouts and frame components specifically for printing */
+  body,
+  #root,
+  main {
+    background: none !important;
+    background-color: white !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Scoped layout wrapper override instead of targeting generic classes */
+  body:has(.print-container) header,
+  body:has(.print-container) aside,
+  body:has(.print-container) nav {
+    display: none !important;
+  }
+
+  /* A4 Page alignment styling */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+
+  /* Strictly scope layout adjustments to print-container to avoid side-effects */
+  .print-container {
+    display: block !important;
+    visibility: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  .print-container table {
+    page-break-inside: auto;
+    width: 100% !important;
+  }
+
+  .print-container tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+}
+
 
 

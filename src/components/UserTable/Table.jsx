@@ -56,7 +56,7 @@ const Table = () => {
 
   if (loading) {
     return (
-      <div className="w-full space-y-8 animate-pulse">
+      <div className="w-full space-y-6 animate-pulse">
         <div className="mb-6">
           <div className="h-8 w-56 bg-slate-200 rounded-lg mb-2"></div>
           <div className="h-4 w-80 bg-slate-100 rounded-lg"></div>
@@ -89,7 +89,7 @@ const Table = () => {
   }
 
   return (
-    <div className="w-full space-y-8">
+    <div className="w-full space-y-6">
       <SearchBar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}

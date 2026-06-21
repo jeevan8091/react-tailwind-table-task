@@ -8,13 +8,13 @@ const UserDetailsModal = ({ user, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4 py-6 backdrop-blur-sm">
-      <div className="w-full max-w-xl rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20">
+      <div className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20">
         {/* Modal Header */}
         <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">User Details</p>
-            <h2 className="mt-1 text-[20px] font-semibold text-slate-800">{user.name || 'Unnamed user'}</h2>
-            <p className="mt-1 text-sm font-medium text-slate-500">@{user.username || 'unknown'}</p>
+            <p className="text-xs font-semibold text-blue-600">User Details</p>
+            <h2 className="mt-1 text-lg font-semibold text-slate-800">{user.name || 'Unnamed user'}</h2>
+            <p className="mt-1 text-sm font-normal text-slate-500">@{user.username || 'unknown'}</p>
           </div>
           <button
             type="button"
@@ -31,42 +31,42 @@ const UserDetailsModal = ({ user, onClose }) => {
         {/* Detail Cards Grid */}
         <div className="grid gap-3.5 px-5 py-5 sm:grid-cols-2 sm:px-6">
           <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Website</p>
+            <p className="text-xs font-medium text-slate-500">Website</p>
             {user.website ? (
               <a
                 href={`https://${user.website}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline"
+                className="mt-2 inline-flex text-sm font-normal text-blue-600 hover:text-blue-700 hover:underline"
               >
                 {user.website}
               </a>
             ) : (
-              <p className="mt-2 text-sm font-semibold text-slate-400">Unavailable</p>
+              <p className="mt-2 text-sm font-normal text-slate-400">Unavailable</p>
             )}
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Company</p>
-            <p className="mt-2 text-sm font-semibold text-slate-800 truncate">{company.name || 'Unavailable'}</p>
+            <p className="text-xs font-medium text-slate-500">Company</p>
+            <p className="mt-2 text-sm font-medium text-slate-800 truncate">{company.name || 'Unavailable'}</p>
             {company.catchPhrase && (
-              <p className="mt-0.5 text-xs font-medium text-slate-400 truncate">{company.catchPhrase}</p>
+              <p className="mt-0.5 text-xs font-normal text-slate-400 truncate">{company.catchPhrase}</p>
             )}
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Address</p>
-            <p className="mt-2 text-sm font-semibold text-slate-800">{fullAddress || 'Unavailable'}</p>
+            <p className="text-xs font-medium text-slate-500">Address</p>
+            <p className="mt-2 text-sm font-medium text-slate-800">{fullAddress || 'Unavailable'}</p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Zipcode</p>
-            <p className="mt-2 text-sm font-semibold text-slate-800">{address.zipcode || 'Unavailable'}</p>
+            <p className="text-xs font-medium text-slate-500">Zipcode</p>
+            <p className="mt-2 text-sm font-medium text-slate-800">{address.zipcode || 'Unavailable'}</p>
           </div>
 
           <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4 sm:col-span-2">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Geo Location</p>
-            <p className="mt-2 font-mono text-sm font-semibold text-slate-700">
+            <p className="text-xs font-medium text-slate-500">Geo Location</p>
+            <p className="mt-2 font-mono text-sm font-medium text-slate-700">
               Lat: {geo.lat ?? 'N/A'} &nbsp;·&nbsp; Lng: {geo.lng ?? 'N/A'}
             </p>
           </div>
@@ -77,7 +77,7 @@ const UserDetailsModal = ({ user, onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-2xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-200 hover:bg-blue-700 sm:w-auto"
+            className="w-full rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-700 sm:w-auto"
           >
             Close
           </button>

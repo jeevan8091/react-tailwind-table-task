@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../../redux/thunk/authThunk';
 
@@ -8,9 +8,24 @@ const Header = ({ onMenuClick }) => {
   const { user } = useSelector(state => state.auth);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const profile = user || {};
   const fullName = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || profile.name || 'Admin';
+
+  const getBreadcrumbs = () => {
+    const path = location.pathname;
+    if (path.startsWith('/dashboard')) return 'Dashboard';
+    if (path.startsWith('/users')) return 'Users';
+    if (path.startsWith('/employee-form')) return 'Employee Form';
+    if (path.startsWith('/dynamic-form-builder')) return 'Form Designer';
+    if (path.startsWith('/projects')) return 'Projects';
+    if (path.startsWith('/invoice-builder')) return 'Invoice Builder';
+    if (path.startsWith('/profile')) return 'Profile';
+    if (path.startsWith('/reports')) return 'Reports';
+    if (path.startsWith('/settings')) return 'Settings';
+    return 'Portal';
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -31,26 +46,23 @@ const Header = ({ onMenuClick }) => {
 
   return (
     <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="flex min-h-16 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="flex h-14 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={onMenuClick}
             aria-label="Open sidebar"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors duration-200 hover:bg-blue-50 hover:text-blue-700"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors duration-200 hover:bg-blue-50 hover:text-blue-700"
           >
-            <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.25" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
             </svg>
           </button>
 
-          <div>
-            <p className="hidden text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600 sm:block">
-              Admin Portal
-            </p>
-            <h1 className="text-base font-bold tracking-tight text-slate-800 sm:mt-1 sm:text-lg">
-              Workforce Hub
-            </h1>
+          <div className="flex items-center gap-2 text-sm font-semibold select-none">
+            <span className="text-slate-400 font-medium">Portal</span>
+            <span className="text-slate-300 font-light">/</span>
+            <span className="text-slate-800">{getBreadcrumbs()}</span>
           </div>
         </div>
 
@@ -60,10 +72,10 @@ const Header = ({ onMenuClick }) => {
             id="header-profile-dropdown-trigger"
             type="button"
             onClick={() => setIsDropdownOpen((prev) => !prev)}
-            className="flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 sm:px-4"
+            className="flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-600 transition-all duration-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-600/20 sm:px-4"
           >
             {/* User Initial Badge */}
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-xs font-black text-white shadow-sm">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-xs font-black text-white shadow-sm">
               {(profile.firstName?.[0] || profile.name?.[0] || 'A').toUpperCase()}
             </span>
             <span className="hidden sm:block max-w-[120px] truncate">{fullName}</span>
@@ -85,7 +97,7 @@ const Header = ({ onMenuClick }) => {
               {/* User Info */}
               <div className="px-4 py-3.5 border-b border-slate-100">
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-black text-white flex-shrink-0">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-sm font-black text-white flex-shrink-0">
                     {(profile.firstName?.[0] || profile.name?.[0] || 'A').toUpperCase()}
                   </span>
                   <div className="min-w-0">

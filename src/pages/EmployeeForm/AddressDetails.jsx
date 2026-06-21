@@ -6,23 +6,14 @@ import { FiMapPin } from 'react-icons/fi';
  */
 function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
   return (
-    <section className="mx-auto p-4">
-      {/* Page Header */}
-      <header className="mb-6 text-center">
-        <h1 className="text-4xl font-bold text-slate-900">Employee Registration</h1>
-
-      </header>
-
-      {/* Card Container */}
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-3xl font-bold text-slate-800 mb-4">Address Details</h2>
-
+    <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-5 animate-in fade-in zoom-in duration-200">
+      <h2 className="text-lg font-semibold text-slate-800 mb-3">Address Details</h2>
 
         {/* Responsive Two‑Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Address */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="address" className="block text-sm font-medium text-slate-700 mb-1.5">
               Address
             </label>
             <div className="relative">
@@ -34,14 +25,14 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
                 placeholder="Enter address"
                 value={formData.address || ''}
                 onChange={handleChange}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${errors?.address ? 'border-red-500' : ''}`}
+                className={`w-full border border-slate-300 rounded-xl h-11 pl-10 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${errors?.address ? 'border-red-500' : ''}`}
               />
             </div>
           </div>
 
           {/* City */}
           <div>
-            <label htmlFor="city" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="city" className="block text-sm font-medium text-slate-700 mb-1.5">
               City
             </label>
             <input
@@ -51,7 +42,7 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
               placeholder="Enter city"
               value={formData.city || ''}
               onChange={handleChange}
-              className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${errors?.city ? 'border-red-500' : ''}`}
+              className={`w-full border border-slate-300 rounded-xl h-11 pl-4 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${errors?.city ? 'border-red-500' : ''}`}
             />
             {errors?.city && (
               <p className="mt-1 text-sm text-red-600">{errors.city}</p>
@@ -60,7 +51,7 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
 
           {/* State */}
           <div>
-            <label htmlFor="state" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="state" className="block text-sm font-medium text-slate-700 mb-1.5">
               State
             </label>
             <input
@@ -70,7 +61,7 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
               placeholder="Enter state"
               value={formData.state || ''}
               onChange={handleChange}
-              className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${errors?.state ? 'border-red-500' : ''}`}
+              className={`w-full border border-slate-300 rounded-xl h-11 pl-4 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${errors?.state ? 'border-red-500' : ''}`}
             />
             {errors?.state && (
               <p className="mt-1 text-sm text-red-600">{errors.state}</p>
@@ -79,7 +70,7 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
 
           {/* Pincode */}
           <div>
-            <label htmlFor="pincode" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="pincode" className="block text-sm font-medium text-slate-700 mb-1.5">
               Pincode
             </label>
             <input
@@ -90,7 +81,7 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
               maxLength={6}
               value={formData.pincode || ''}
               onChange={handleChange}
-              className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${errors?.pincode ? 'border-red-500' : ''}`}
+              className={`w-full border border-slate-300 rounded-xl h-11 pl-4 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${errors?.pincode ? 'border-red-500' : ''}`}
             />
             {errors?.pincode && (
               <p className="mt-1 text-sm text-red-600">{errors.pincode}</p>
@@ -99,24 +90,23 @@ function AddressDetails({ formData, handleChange, errors, onPrev, onNext }) {
         </div>
 
         {/* Footer Buttons */}
-        <div className="flex justify-between pt-6">
+        <div className="flex justify-between pt-5 mt-4 border-t border-slate-100">
           <button
             type="button"
             onClick={onPrev}
-            className="h-11 px-6 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300"
+            className="h-10 px-5 bg-slate-100 hover:bg-slate-200 text-sm font-medium text-slate-700 rounded-xl transition-all duration-200"
           >
             ◀ Previous
           </button>
           <button
             type="button"
             onClick={onNext}
-            className="h-11 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700"
+            className="h-10 px-5 bg-blue-600 hover:bg-blue-700 text-sm font-semibold text-white rounded-xl shadow-sm transition-all duration-200"
           >
             Next →
           </button>
         </div>
       </div>
-    </section>
   );
 }
 

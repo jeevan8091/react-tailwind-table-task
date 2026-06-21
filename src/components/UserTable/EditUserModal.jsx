@@ -92,11 +92,11 @@ const EditUserModal = ({ user, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4 py-6 backdrop-blur-sm">
-      <div className="w-full max-w-3xl rounded-3xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20">
+      <div className="w-full max-w-3xl rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/20">
         <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-6">
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">Edit User</p>
-            <h2 className="mt-1 text-[20px] font-semibold text-slate-800">Update directory details</h2>
+            <p className="text-xs font-semibold text-blue-600">Edit User</p>
+            <h2 className="mt-1 text-lg font-semibold text-slate-800">Update directory details</h2>
           </div>
           <button
             type="button"
@@ -111,10 +111,10 @@ const EditUserModal = ({ user, onClose, onSave }) => {
         </div>
 
         <form onSubmit={handleSubmit(handleSave)} className="px-5 py-5 sm:px-6">
-          <div className="grid max-h-[60vh] gap-5 overflow-y-auto pr-1 md:grid-cols-2">
+          <div className="grid max-h-[60vh] gap-4 overflow-y-auto pr-1 md:grid-cols-2">
             {fields.map((field) => (
               <div key={field.name} className={field.name === 'address' ? 'md:col-span-2' : ''}>
-                <label htmlFor={`edit-${field.name}`} className="text-[13px] font-semibold tracking-[0.01em] text-slate-700">
+                <label htmlFor={`edit-${field.name}`} className="text-sm font-medium text-slate-700">
                   {field.label}
                 </label>
                 <input
@@ -124,10 +124,10 @@ const EditUserModal = ({ user, onClose, onSave }) => {
                     required: field.required,
                     pattern: field.pattern,
                   })}
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[15px] font-medium text-slate-800 placeholder:text-slate-400 transition-all duration-300 focus:border-transparent focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="mt-1.5 w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-normal text-slate-800 placeholder:text-slate-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600"
                 />
                 {errors[field.name] && (
-                  <p className="mt-2 text-xs font-semibold text-red-600">{errors[field.name].message}</p>
+                  <p className="mt-1.5 text-xs font-normal text-red-600">{errors[field.name].message}</p>
                 )}
               </div>
             ))}
@@ -137,13 +137,13 @@ const EditUserModal = ({ user, onClose, onSave }) => {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors duration-200 hover:bg-slate-50"
+              className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition-colors duration-200 hover:bg-slate-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200"
+              className="rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 transition-all duration-200"
             >
               Save Changes
             </button>

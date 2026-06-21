@@ -23,7 +23,7 @@ const Layout = () => {
   const toggleSidebar = () => setIsSidebarOpen((current) => !current);
 
   return (
-    <div className="flex min-h-screen bg-[#F8FAFC] text-slate-800">
+    <div className="flex min-h-screen bg-[#F8FAFC] text-slate-900">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
         {/* Sidebar backdrop (visual only — no click-to-close) */}
@@ -36,7 +36,7 @@ const Layout = () => {
 
         <div className="flex min-h-screen min-w-0 flex-1 flex-col transition-all duration-300 ease-in-out">
           <Header onMenuClick={toggleSidebar} />
-          <main className="px-4 py-6 sm:px-6 lg:px-8">
+          <main className="px-6 pt-3 pb-6">
             <Outlet />
           </main>
         </div>

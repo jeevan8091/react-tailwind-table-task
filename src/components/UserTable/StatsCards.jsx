@@ -25,18 +25,18 @@ const StatsCards = ({ users, filteredUsers, searchQuery }) => {
       {cards.map((card) => (
         <div
           key={card.label}
-          className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-100 transition-all duration-300"
+          className="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-blue-600/20 transition-all duration-300"
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{card.label}</p>
-              <h3 className="text-3xl font-bold text-slate-800 mt-2">{card.value}</h3>
+              <p className="text-xs font-medium text-slate-500">{card.label}</p>
+              <h3 className="text-2xl font-bold text-slate-800 mt-2">{card.value}</h3>
             </div>
             <div className="h-10 w-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
-              <span className="h-2.5 w-2.5 rounded-full bg-blue-600"></span>
+              <span className="h-2 w-2 rounded-full bg-blue-600"></span>
             </div>
           </div>
-          <p className="mt-4 text-sm font-medium text-slate-500">{card.description}</p>
+          <p className="mt-3 text-xs font-normal text-slate-500">{card.description}</p>
         </div>
       ))}
     </div>

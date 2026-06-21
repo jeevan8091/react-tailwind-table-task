@@ -16,30 +16,14 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
     errors && errors[field] && (touched[field] || Object.keys(errors).length > 0);
 
   return (
-    <section className="mx-auto p-4">
-      {/* Page Header */}
-      <header className="mb-6 text-center">
-        <h1 className="text-4xl font-bold text-slate-900">Employee Registration</h1>
-
-      </header>
-
-      {/* Step Indicator */}
-
-
-
-
-
-
-      {/* Card Container */}
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-3xl font-bold text-slate-800 mb-4">Personal Details</h2>
-
+    <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-5 animate-in fade-in zoom-in duration-200">
+      <h2 className="text-lg font-semibold text-slate-800 mb-3">Personal Details</h2>
 
         {/* Responsive Two‑Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">
               Name
             </label>
             <div className="relative">
@@ -51,7 +35,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.name || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('name') ? 'border-red-500' : ''}`} placeholder="Enter full name"
+                className={`w-full border border-slate-300 rounded-xl h-11 pl-10 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${shouldShowError('name') ? 'border-red-500' : ''}`} placeholder="Enter full name"
               />
             </div>
             {shouldShowError('name') && (
@@ -61,7 +45,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
               Email
             </label>
             <div className="relative">
@@ -73,7 +57,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.email || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('email') ? 'border-red-500' : ''}`} placeholder="Enter email address"
+                className={`w-full border border-slate-300 rounded-xl h-11 pl-10 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${shouldShowError('email') ? 'border-red-500' : ''}`} placeholder="Enter email address"
               />
             </div>
             {shouldShowError('email') && (
@@ -83,7 +67,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
 
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1.5">
               Phone
             </label>
             <div className="relative">
@@ -96,7 +80,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.phone || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('phone') ? 'border-red-500' : ''}`} placeholder="Enter 10-digit phone number"
+                className={`w-full border border-slate-300 rounded-xl h-11 pl-10 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${shouldShowError('phone') ? 'border-red-500' : ''}`} placeholder="Enter 10-digit phone number"
               />
             </div>
             {shouldShowError('phone') && (
@@ -106,7 +90,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
 
           {/* Date of Birth */}
           <div>
-            <label htmlFor="dob" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="dob" className="block text-sm font-medium text-slate-700 mb-1.5">
               Date of Birth
             </label>
             <div className="relative">
@@ -118,7 +102,7 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
                 value={formData.dob || ''}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className={`w-full border border-slate-300 rounded-lg h-12 pl-10 pr-10 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200 ${shouldShowError('dob') ? 'border-red-500' : ''}`} placeholder="Select date of birth"
+                className={`w-full border border-slate-300 rounded-xl h-11 pl-10 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200 ${shouldShowError('dob') ? 'border-red-500' : ''}`} placeholder="Select date of birth"
               />
             </div>
             {shouldShowError('dob') && (
@@ -128,17 +112,16 @@ function PersonalDetails({ formData, handleChange, errors, onNext }) {
         </div>
 
         {/* Footer Buttons */}
-        <div className="flex justify-end pt-6">
+        <div className="flex justify-end pt-5 mt-4 border-t border-slate-100">
           <button
             type="button"
             onClick={onNext}
-            className="h-11 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700"
+            className="h-10 px-5 bg-blue-600 hover:bg-blue-700 text-sm font-semibold text-white rounded-xl shadow-sm transition-all duration-200"
           >
             Next →
           </button>
         </div>
       </div>
-    </section>
   );
 }
 

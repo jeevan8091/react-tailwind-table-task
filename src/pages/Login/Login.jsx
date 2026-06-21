@@ -44,17 +44,17 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center px-4 py-10 sm:px-6 lg:px-8 font-sans antialiased text-slate-800">
+    <div className="relative h-screen overflow-y-auto md:overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center px-4 py-4 sm:py-6 font-sans antialiased text-slate-800">
       <div className="absolute -top-24 -right-20 h-72 w-72 rounded-full bg-blue-200/30 blur-3xl"></div>
       <div className="absolute -bottom-28 -left-24 h-80 w-80 rounded-full bg-indigo-200/30 blur-3xl"></div>
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
 
       <div className="relative w-full max-w-md">
-        <div className="bg-white/90 backdrop-blur-xl rounded-3xl border border-white/80 shadow-2xl shadow-slate-200/70 px-6 py-8 sm:px-8 sm:py-10 animate-fade-in">
-          <div className="mb-8 text-center">
-            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200">
+        <div className="bg-white/90 backdrop-blur-xl rounded-3xl border border-white/80 shadow-2xl shadow-slate-200/70 px-6 py-6 sm:px-8 sm:py-7 animate-fade-in">
+          <div className="mb-5 text-center">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-200">
               <svg
-                className="h-8 w-8"
+                className="h-6 w-6"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
@@ -69,21 +69,21 @@ const Login = () => {
               </svg>
             </div>
 
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue-600">
               Admin Portal
             </p>
-            <h1 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">
+            <h1 className="mt-1 text-[26px] font-bold tracking-tight text-slate-800">
               Workforce Hub
             </h1>
-            <h2 className="mt-5 text-[20px] font-semibold text-slate-800">
+            <h2 className="mt-1.5 text-[18px] font-semibold text-slate-800">
               Welcome Back
             </h2>
-            <p className="mt-2 text-sm font-medium leading-6 text-slate-500">
+            <p className="mt-0.5 text-[13px] font-medium leading-5 text-slate-500">
               Sign in to access your dashboard
             </p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
             <div>
               <label
                 htmlFor="username"
@@ -92,7 +92,7 @@ const Login = () => {
                 Username
               </label>
 
-              <div className="relative mt-2">
+              <div className="relative mt-1">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                   <svg
                     className="h-5 w-5 text-slate-400"
@@ -120,7 +120,7 @@ const Login = () => {
                 />
               </div>
               {errors.username && (
-                <p className="mt-2 text-xs font-semibold text-red-600">{errors.username.message}</p>
+                <p className="mt-1.5 text-xs font-semibold text-red-600">{errors.username.message}</p>
               )}
             </div>
 
@@ -132,7 +132,7 @@ const Login = () => {
                 Password
               </label>
 
-              <div className="relative mt-2">
+              <div className="relative mt-1">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                   <svg
                     className="h-5 w-5 text-slate-400"
@@ -177,11 +177,11 @@ const Login = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-2 text-xs font-semibold text-red-600">{errors.password.message}</p>
+                <p className="mt-1.5 text-xs font-semibold text-red-600">{errors.password.message}</p>
               )}
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1">
               <label htmlFor="role" className="text-[13px] font-semibold tracking-[0.01em] text-slate-700">
                 Access Role
               </label>
@@ -193,7 +193,7 @@ const Login = () => {
                   id="role"
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  className="h-12 w-full rounded-xl border border-slate-300 bg-white px-4 pl-10 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                  className="h-11 w-full rounded-xl border border-slate-300 bg-white px-4 pl-10 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-200"
                 >
                   <option value="Admin">Admin</option>
                   <option value="Manager">Manager</option>
@@ -222,7 +222,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:opacity-50"
+              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:opacity-50"
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </button>

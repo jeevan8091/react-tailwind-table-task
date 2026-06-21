@@ -3,23 +3,14 @@ import React from 'react';
 
 function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
   return (
-    <section className="mx-auto p-4">
-      {/* Page Header */}
-      <header className="mb-6 text-center">
-        <h1 className="text-4xl font-bold text-slate-900">Employee Registration</h1>
-        
-      </header>
-
-      {/* Card Container */}
-      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 animate-in fade-in zoom-in duration-200">
-        <h2 className="text-3xl font-bold text-slate-800 mb-4">Employment Details</h2>
-
+    <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 p-5 animate-in fade-in zoom-in duration-200">
+      <h2 className="text-lg font-semibold text-slate-800 mb-3">Employment Details</h2>
 
         {/* Responsive Two‑Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Department */}
           <div>
-            <label htmlFor="department" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="department" className="block text-sm font-medium text-slate-700 mb-1.5">
               Department
             </label>
             <div className="relative">
@@ -30,7 +21,7 @@ function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
                 placeholder="Enter department"
                 value={formData.department || ''}
                 onChange={handleChange}
-                className={`w-full border ${errors?.department ? 'border-red-500' : 'border-slate-300'} rounded-lg h-12 pl-4 pr-4 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200`}
+                className={`w-full border ${errors?.department ? 'border-red-500' : 'border-slate-300'} rounded-xl h-11 pl-4 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200`}
               />
             </div>
             {errors?.department && (
@@ -40,7 +31,7 @@ function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
 
           {/* Designation */}
           <div>
-            <label htmlFor="designation" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="designation" className="block text-sm font-medium text-slate-700 mb-1.5">
               Designation
             </label>
             <div className="relative">
@@ -51,7 +42,7 @@ function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
                 placeholder="Enter designation"
                 value={formData.designation || ''}
                 onChange={handleChange}
-                className={`w-full border ${errors?.designation ? 'border-red-500' : 'border-slate-300'} rounded-lg h-12 pl-4 pr-4 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200`}
+                className={`w-full border ${errors?.designation ? 'border-red-500' : 'border-slate-300'} rounded-xl h-11 pl-4 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200`}
               />
             </div>
             {errors?.designation && (
@@ -61,7 +52,7 @@ function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
 
           {/* Salary */}
           <div>
-            <label htmlFor="salary" className="block text-sm font-medium text-slate-700">
+            <label htmlFor="salary" className="block text-sm font-medium text-slate-700 mb-1.5">
               Salary
             </label>
             <div className="relative">
@@ -73,7 +64,7 @@ function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
                 placeholder="Enter salary"
                 value={formData.salary || ''}
                 onChange={handleChange}
-                className={`w-full border ${errors?.salary ? 'border-red-500' : 'border-slate-300'} rounded-lg h-12 pl-4 pr-4 bg-white text-slate-700 placeholder:text-slate-400 hover:border-blue-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all duration-200`}
+                className={`w-full border ${errors?.salary ? 'border-red-500' : 'border-slate-300'} rounded-xl h-11 pl-4 pr-4 bg-white text-sm font-normal text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/10 focus:border-blue-600 transition-all duration-200`}
               />
             </div>
             {errors?.salary && (
@@ -83,12 +74,11 @@ function EmploymentDetails({ formData, handleChange, errors, onPrev, onNext }) {
         </div>
 
         {/* Footer Buttons */}
-        <div className="flex justify-between pt-6">
-          <button type="button" onClick={onPrev} className="h-11 px-6 bg-gray-200 text-gray-800 font-medium rounded-lg hover:bg-gray-300">◀ Previous</button>
-          <button type="button" onClick={onNext} className="h-11 px-6 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700">Next →</button>
+        <div className="flex justify-between pt-5 mt-4 border-t border-slate-100">
+          <button type="button" onClick={onPrev} className="h-10 px-5 bg-slate-100 hover:bg-slate-200 text-sm font-medium text-slate-700 rounded-xl transition-all duration-200">◀ Previous</button>
+          <button type="button" onClick={onNext} className="h-10 px-5 bg-blue-600 hover:bg-blue-700 text-sm font-semibold text-white rounded-xl shadow-sm transition-all duration-200">Next →</button>
         </div>
       </div>
-    </section>
   );
 }
 

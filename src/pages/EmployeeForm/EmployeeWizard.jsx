@@ -130,7 +130,21 @@ function EmployeeWizard() {
     }
   };
 
-  return <>{renderStep()}</>;
+  return (
+    <div className="space-y-6">
+      <section>
+        <p className="text-xs font-semibold text-blue-600">Employees</p>
+        <h1 className="mt-1 text-3xl font-bold text-slate-800">Employee Registration</h1>
+        <p className="mt-2 text-sm font-normal text-slate-500">
+          Register new employee records through the multi-step wizard.
+        </p>
+      </section>
+
+      <div className="w-full">
+        {renderStep()}
+      </div>
+    </div>
+  );
 }
 
 export default EmployeeWizard;

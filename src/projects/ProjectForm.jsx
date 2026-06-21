@@ -85,7 +85,7 @@ const ProjectForm = ({ mode = 'add', project = null, onSubmit, onCancel }) => {
         {/* Row 1 – Name + Short Code */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-4">
           <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1">
+            <label className="block text-xs font-medium text-slate-500 mb-1">
               Project Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -100,7 +100,7 @@ const ProjectForm = ({ mode = 'add', project = null, onSubmit, onCancel }) => {
             <FieldError message={errors.name?.message} />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1">
+            <label className="block text-xs font-medium text-slate-500 mb-1">
               Short Code <span className="text-red-500">*</span>
             </label>
             <input
@@ -123,7 +123,7 @@ const ProjectForm = ({ mode = 'add', project = null, onSubmit, onCancel }) => {
         {/* Row 2 – Date + Status */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 mb-4">
           <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1">
+            <label className="block text-xs font-medium text-slate-500 mb-1">
               Project Date <span className="text-red-500">*</span>
             </label>
             <input
@@ -134,7 +134,7 @@ const ProjectForm = ({ mode = 'add', project = null, onSubmit, onCancel }) => {
             <FieldError message={errors.projectDate?.message} />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-500 mb-1">Status</label>
+            <label className="block text-xs font-medium text-slate-500 mb-1">Status</label>
             <select className={inputClass(!!errors.status)} {...register('status')}>
               {['Planning', 'In Progress', 'On Hold', 'Completed'].map((s) => (
                 <option key={s} value={s}>

@@ -54,26 +54,15 @@ const InvoiceBuilder = () => {
   };
   return (
     <div className="space-y-6">
-      <Toaster
-  position="top-center"
-  toastOptions={{
-    duration: 3000,
-    style: {
-      borderRadius: '12px',
-      padding: '16px',
-      fontSize: '14px',
-    },
-  }}
-/>
       {/* Header section */}
       <div className="no-print">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue-600">
+        <p className="text-xs font-semibold text-blue-600">
           Invoice Builder
         </p>
-        <h1 className="mt-1 text-3xl font-bold tracking-tight text-slate-800">
+        <h1 className="mt-0 text-3xl font-bold tracking-tight text-slate-800">
           Invoice Builder
         </h1>
-        <p className="mt-1 text-sm text-slate-600">
+        <p className="mt-2 text-sm font-normal text-slate-500">
           Create, manage, and generate customer invoices.
         </p>
       </div>
@@ -83,14 +72,14 @@ const InvoiceBuilder = () => {
         <h3 className="text-lg font-semibold text-slate-800 mb-1">
           Customer Information
         </h3>
-        <p className="text-sm text-slate-600 mb-3">
+        <p className="text-sm font-normal text-slate-500 mb-4">
           Enter customer details for invoice generation.
         </p>
         {/* Customer Information Form */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Customer Name */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-slate-500 mb-1">
               Customer Name
             </label>
             <input
@@ -98,31 +87,31 @@ const InvoiceBuilder = () => {
               placeholder="Enter customer name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              className="block w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-blue-500 p-2 text-sm"
+              className="block w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-2.5 text-sm text-slate-800 outline-none transition-all duration-200"
             />
           </div>
           {/* Invoice Date */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-slate-500 mb-1">
               Invoice Date
             </label>
             <input
               type="date"
               value={invoiceDate}
               onChange={(e) => setInvoiceDate(e.target.value)}
-              className="block w-full rounded-md border border-gray-300 focus:border-blue-500 focus:ring-blue-500 p-2 text-sm"
+              className="block w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-2.5 text-sm text-slate-800 outline-none transition-all duration-200"
             />
           </div>
           {/* Invoice Number */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium text-slate-500 mb-1">
               Invoice Number
             </label>
             <input
               type="text"
               readOnly
               value={invoiceNumber}
-              className="block w-full bg-gray-100 rounded-md border border-gray-300 p-2 text-sm cursor-not-allowed"
+              className="block w-full bg-slate-50 rounded-xl border border-slate-200 p-2.5 text-sm text-slate-500 cursor-not-allowed outline-none"
             />
           </div>
         </div>
@@ -130,80 +119,83 @@ const InvoiceBuilder = () => {
 
       {/* Invoice Items Card */}
       <section className="bg-white border border-slate-200 rounded-2xl shadow-sm p-5 no-print">
-        <div className="flex justify-between items-center mb-3">
+        <div className="flex justify-between items-center mb-4">
           <div>
             <h3 className="text-lg font-semibold text-slate-800">Invoice Items</h3>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm font-normal text-slate-500">
               Manage invoice line items and pricing details.
             </p>
           </div>
           <button
-            className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none"
+            className="inline-flex items-center rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus:outline-none transition-all duration-200"
             onClick={handleAddItem}
           >
             Add Item
           </button>
         </div>
-        <div className="overflow-x-auto mt-3">
-          <table className="w-full border-collapse">
-            <thead className="bg-slate-100">
+      <div className="w-full overflow-x-auto rounded-2xl border border-slate-200 shadow-sm mt-3">
+        <table className="w-full border-collapse">
+          <thead className="bg-slate-100 border-b border-slate-200">
+            <tr className="text-xs font-semibold text-slate-500 text-left">
+              <th className="px-5 py-3 w-1/3">Item Name</th>
+              <th className="px-5 py-3 w-1/6">Quantity</th>
+              <th className="px-5 py-3 w-1/6">Rate</th>
+              <th className="px-5 py-3 w-1/5">Amount</th>
+              <th className="px-5 py-3 text-center w-12">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.length === 0 ? (
               <tr>
-                <th className="px-4 py-2 text-left text-sm font-semibold text-slate-700">Item Name</th>
-                <th className="px-4 py-2 text-left text-sm font-semibold text-slate-700">Quantity</th>
-                <th className="px-4 py-2 text-left text-sm font-semibold text-slate-700">Rate</th>
-                <th className="px-4 py-2 text-left text-sm font-semibold text-slate-700">Amount</th>
-                <th className="px-4 py-2 text-left text-sm font-semibold text-slate-700">Action</th>
+                <td colSpan={5} className="px-5 py-8 text-slate-400 text-sm font-normal text-center">No items added yet</td>
               </tr>
-            </thead>
-            <tbody className="text-center">
-              {items.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="py-6 text-slate-500 text-sm">No items added yet</td>
-                </tr>
               ) : (
                 items.map(item => (
-                  <tr key={item.id}>
-                    <td className="px-4 py-2">
+                  <tr key={item.id} className="border-b border-slate-100 last:border-b-0 hover:bg-slate-50/50 transition-colors">
+                    <td className="px-5 py-3.5">
                       <input
                         type="text"
+                        placeholder="Item name / description"
                         value={item.itemName}
                         onChange={e => updateItem(item.id, 'itemName', e.target.value)}
-                        className="w-full rounded-md border border-slate-300 p-1 text-sm"
+                        className="w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-2 text-sm text-slate-800 outline-none transition-all duration-200"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-5 py-3.5">
                       <input
                         type="number"
                         min="1"
+                        placeholder="0"
                         value={item.quantity}
                         onChange={e => updateItem(item.id, 'quantity', e.target.value)}
-                        className="w-full rounded-md border border-slate-300 p-1 text-sm"
+                        className="w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-2 text-sm text-slate-800 outline-none transition-all duration-200"
                       />
                     </td>
-                    <td className="px-4 py-2">
+                    <td className="px-5 py-3.5">
                       <input
                         type="number"
                         min="0"
+                        placeholder="0.00"
                         value={item.rate}
                         onChange={e => updateItem(item.id, 'rate', e.target.value)}
-                        className="w-full rounded-md border border-slate-300 p-1 text-sm"
+                        className="w-full rounded-xl border border-slate-200 bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-100 p-2 text-sm text-slate-800 outline-none transition-all duration-200"
                       />
                     </td>
-                    <td className="px-4 py-2">
-                      <input
-                        type="text"
-                        readOnly
-                        value={`₹${item.amount.toFixed(2)}`}
-                        className="w-full bg-slate-100 text-right font-medium cursor-not-allowed p-1 border border-slate-300 rounded-md text-sm"
-                      />
+                    <td className="px-5 py-3.5 text-left text-sm font-semibold text-slate-800">
+                      ₹{item.amount.toFixed(2)}
                     </td>
-                    <td className="px-4 py-2 text-center">
-                      <FiTrash2 className="text-slate-400 hover:text-red-500 transition-colors cursor-pointer" onClick={() => handleDeleteItem(item.id)} />
+                    <td className="px-5 py-3.5 text-center">
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteItem(item.id)}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-100 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-colors"
+                      >
+                        <FiTrash2 className="h-4 w-4" />
+                      </button>
                     </td>
                   </tr>
                 ))
               )}
-
             </tbody>
           </table>
         </div>
@@ -214,11 +206,11 @@ const InvoiceBuilder = () => {
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-4">
           <div>
             <h3 className="text-lg font-semibold text-slate-800 mb-1">Invoice Summary</h3>
-            <p className="text-sm text-slate-600">
+            <p className="text-sm font-normal text-slate-500">
               Review invoice totals before generating the invoice.
             </p>
             <button
-              className="mt-4 inline-flex items-center rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 focus:outline-none"
+              className="mt-4 inline-flex items-center rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none transition-all duration-200"
               onClick={handleGenerateInvoice}
             >
               Generate Invoice
@@ -308,6 +300,17 @@ const InvoiceBuilder = () => {
         </div>
       </section>
     )}
+    <Toaster
+      position="top-center"
+      toastOptions={{
+        duration: 3000,
+        style: {
+          borderRadius: '12px',
+          padding: '16px',
+          fontSize: '14px',
+        },
+      }}
+    />
     </div>
   );
 };

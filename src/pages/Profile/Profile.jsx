@@ -49,7 +49,7 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
           <p className="text-center text-gray-500">Loading Profile…</p>
         </div>
       </div>
@@ -58,13 +58,15 @@ const Profile = () => {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-blue-600">Profile</p>
-        <h2 className="mt-2 text-[30px] font-bold tracking-tight text-slate-800">{fullName}</h2>
-        <p className="mt-1 text-sm font-semibold text-slate-500">{email}</p>
-        <p className="mt-2 text-sm font-semibold text-slate-500">{role} | {profile.employeeCode || ''}</p>
-        <p className="mt-2 text-sm font-semibold text-slate-500">Phone: {phone}</p>
-        <p className="mt-1 text-sm font-semibold text-slate-500">Last Login: {lastLogin}</p>
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+        <p className="text-xs font-semibold text-blue-600">Profile</p>
+        <h2 className="mt-1 text-3xl font-bold text-slate-800">{fullName}</h2>
+        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm text-slate-500 font-normal">
+          <p><span className="font-semibold text-slate-700">Email:</span> {email}</p>
+          <p><span className="font-semibold text-slate-700">Role:</span> {role} {profile.employeeCode ? `| ${profile.employeeCode}` : ''}</p>
+          <p><span className="font-semibold text-slate-700">Phone:</span> {phone}</p>
+          <p className="md:col-span-2 lg:col-span-3"><span className="font-semibold text-slate-700">Last Login:</span> {lastLogin}</p>
+        </div>
       </section>
 
       <ProfileTabs activeTab={profile.activeTab ?? 'profile'} onTabChange={() => {}} tabs={TABS} />

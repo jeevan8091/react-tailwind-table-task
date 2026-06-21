@@ -72,7 +72,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     [
       'group relative flex h-11 items-center rounded-xl text-sm font-semibold transition-[background-color,color,box-shadow] duration-200 px-3 justify-start',
       isActive
-        ? 'bg-blue-600 text-white shadow-sm shadow-blue-200'
+        ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/10'
         : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
     ].join(' ');
 
@@ -91,17 +91,17 @@ const Sidebar = ({ isOpen, onClose }) => {
     >
       <div className="flex h-full flex-col">
         <div className="flex min-h-16 items-center border-b border-slate-100 px-3 justify-between">
-          <div className="flex min-w-0 items-center">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-sm shadow-blue-200">
-              <svg className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" aria-hidden="true">
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-sm shadow-blue-600/10">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
             <div className={`transition-opacity transition-transform duration-300 ease-in-out will-change-transform ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}
               ${isOpen ? '' : 'pointer-events-none'}
             `}>
-              <p className="text-base font-bold text-slate-800 leading-tight">Workforce Hub</p>
-              <p className="text-xs font-semibold text-slate-500 leading-tight">Admin Dashboard</p>
+              <p className="text-sm font-semibold text-slate-800 leading-none">Workforce Hub</p>
+              <p className="mt-1 text-xs font-medium text-slate-500 tracking-wider uppercase leading-none">Admin Panel</p>
             </div>
           </div>
 

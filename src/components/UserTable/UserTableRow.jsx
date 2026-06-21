@@ -16,19 +16,19 @@ const UserTableRow = ({ user, index, onEdit, onDelete, onViewDetails }) => {
 
       <td className={`px-4 py-4 ${cellBg} transition-colors duration-200`}>
         <div className="flex items-center gap-3">
-          <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold tracking-wide text-white shadow-sm shadow-blue-100 ${accent.avatar}`}>
+          <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold tracking-wide text-white shadow-sm shadow-blue-600/10 ${accent.avatar}`}>
             {initials}
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-bold text-slate-800 transition-colors duration-200 group-hover:text-blue-700">
+            <p className="truncate text-sm font-medium text-slate-800 transition-colors duration-200 group-hover:text-blue-700">
               {user.name || 'Unnamed user'}
             </p>
             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-              <span className="text-xs font-semibold text-slate-400">@{user.username || 'unknown'}</span>
+              <span className="text-xs font-normal text-slate-400">@{user.username || 'unknown'}</span>
               <button
                 type="button"
                 onClick={() => onViewDetails(user)}
-                className="text-xs font-bold text-blue-600 transition-colors duration-200 hover:text-blue-700 hover:underline"
+                className="text-xs font-medium text-blue-600 transition-colors duration-200 hover:text-blue-700 hover:underline"
               >
                 Details
               </button>
@@ -41,25 +41,25 @@ const UserTableRow = ({ user, index, onEdit, onDelete, onViewDetails }) => {
         {user.email ? (
           <a
             href={`mailto:${user.email}`}
-            className="block max-w-[180px] truncate text-sm font-semibold text-blue-600 transition-colors duration-200 hover:text-blue-700 hover:underline"
+            className="block max-w-[180px] truncate text-sm font-normal text-blue-600 transition-colors duration-200 hover:text-blue-700 hover:underline"
           >
             {user.email}
           </a>
         ) : (
-          <span className="text-sm font-semibold text-slate-400">Email unavailable</span>
+          <span className="text-sm font-normal text-slate-400">Email unavailable</span>
         )}
       </td>
 
       <td className={`px-4 py-4 ${cellBg} transition-colors duration-200`}>
-        <span className="block max-w-[170px] truncate text-sm font-semibold text-slate-700">
+        <span className="block max-w-[170px] truncate text-sm font-normal text-slate-700">
           {user.phone || 'Phone unavailable'}
         </span>
       </td>
 
       <td className={`px-4 py-4 ${cellBg} transition-colors duration-200`}>
         <div className="max-w-[210px]">
-          <span className="block max-w-[150px] truncate text-sm font-semibold text-slate-700">{company.name || 'Company unavailable'}</span>
-          <p className="mt-1 truncate text-xs font-medium text-slate-400">
+          <span className="block max-w-[150px] truncate text-sm font-medium text-slate-700">{company.name || 'Company unavailable'}</span>
+          <p className="mt-1 truncate text-xs font-normal text-slate-400">
             {company.catchPhrase || 'No catchphrase available'}
           </p>
         </div>
